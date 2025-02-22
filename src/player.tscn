@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://du3tbrm8gufj6"]
+
+[ext_resource type="Script" path="res://src/player.gd" id="1_ogkgb"]
+[ext_resource type="Script" path="res://src/camera.gd" id="3_jqia4"]
+[ext_resource type="Script" path="res://addons/mouse/mouse.gd" id="4_pe5bc"]
+[ext_resource type="Script" path="res://addons/mouse/mouse_manager.gd" id="5_r2lxd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fx7rw"]
+shading_mode = 0
+albedo_color = Color(0.44, 0.44, 0.44, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tclkv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aqxt6"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager")]
+collision_layer = 0
+script = ExtResource("1_ogkgb")
+ray_cast = NodePath("Camera3D/RayCast3D")
+mouse = NodePath("MouseInpt")
+mouse_manager = NodePath("MouseManager")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_fx7rw")
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_tclkv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_aqxt6")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("mouse", "mouse_manager")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+current = true
+script = ExtResource("3_jqia4")
+mouse = NodePath("../MouseInpt")
+mouse_manager = NodePath("../MouseManager")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -5)
+
+[node name="MouseInpt" type="Node" parent="."]
+script = ExtResource("4_pe5bc")
+
+[node name="MouseManager" type="Node" parent="."]
+script = ExtResource("5_r2lxd")
+is_hidden = true
+
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
+current = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
