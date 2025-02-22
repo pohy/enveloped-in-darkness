@@ -1,0 +1,4 @@
+Hello [i]person[/i]
+Let's continue...
+...our [b]conversation[/b]
+How are you? [player_input name=mood][/player_input][continue]Not telling you[/continue]

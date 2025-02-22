@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cu2j3l6ofcspx"]
 
-[ext_resource type="Script" path="res://rich_text_label_3d.gd" id="1_yq4rt"]
+[ext_resource type="Script" path="res://src/rich_text_label_3d.gd" id="1_yq4rt"]
 [ext_resource type="Texture2D" uid="uid://ddftq0hxil7gr" path="res://icon.svg" id="2_i6amr"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cyvg7"]
@@ -9,6 +9,7 @@ viewport_path = NodePath("SubViewportContainer/SubViewport")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_837b1"]
 resource_local_to_scene = true
 transparency = 1
+shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_cyvg7")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_i5upx"]
@@ -52,4 +53,5 @@ bbcode_enabled = true
 text = "[center]
 3D Rich [i]label[/i]
 [/center]"
+fit_content = true
 scroll_active = false
