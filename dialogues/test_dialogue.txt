@@ -1,4 +1,4 @@
-Hello [i]person[/i] and others
+Hello [i]person[/i] and [wave amp=50.0 freq=5.0 connected=1]others[/wave]!
 Let's continue...
 ...our [b]conversation[/b]
 How are you? [player_input name=mood][/player_input][continue]Not telling you[/continue]
