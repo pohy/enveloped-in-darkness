@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody3D
 
+signal advance_dialogue
+
 @export_category("Movement")
 @export var speed := 5.0
 @export var speed_sprint := 10.0
@@ -29,7 +31,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	pass
+	if event is InputEvent and event.is_action_pressed("action_primary"):
+		advance_dialogue.emit()
 
 
 func _on_mouse_motion() -> void:

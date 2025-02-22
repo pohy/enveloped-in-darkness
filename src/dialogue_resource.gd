@@ -15,6 +15,10 @@ func load() -> void:
 
 	text = file.get_as_text()
 	lines = text.split("\n")
+	# Filter out empty lines
+	for i in range(lines.size()):
+		if lines[i].strip_edges() == "":
+			lines.remove_at(i)
 
 	if lines.size() == 0:
 		printerr("No lines in file: " + file_path)

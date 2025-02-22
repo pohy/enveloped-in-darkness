@@ -63,3 +63,5 @@ layout_mode = 2
 bbcode_enabled = true
 text = "Hello from dialogue"
 fit_content = true
+
+[connection signal="advance_dialogue" from="Player" to="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl" method="advance"]

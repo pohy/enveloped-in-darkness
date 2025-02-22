@@ -1,6 +1,8 @@
 class_name DialogueControl
 extends Node
 
+signal last_line_reached
+
 @export var dialogue: DialogueResource
 @export var dialogue_label: RichTextLabel
 
@@ -17,6 +19,7 @@ func advance() -> void:
 		printerr("End of dialogue")
 		return
 	else:
+		last_line_reached.emit()
 		_current_line = next_line
 
 
