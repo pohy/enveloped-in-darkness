@@ -11,8 +11,11 @@ extends CharacterBody3D
 @export var mouse_manager: MouseManager
 @export var player_state: PlayerState
 @export var dialogue_control: DialogueControl
+@export var interaction_icon: Sprite2D
 
 @export_category("Dependencies - Audio")
+
+var _current_interactive: Interactive = null
 
 
 func _ready() -> void:
@@ -21,10 +24,17 @@ func _ready() -> void:
 	assert(mouse_manager is MouseManager, "MouseManager not set")
 	assert(player_state is PlayerState, "PlayerState not set")
 	assert(dialogue_control is DialogueControl, "DialogueControl not set")
+	assert(interaction_icon is Sprite2D, "Interaction icon not set")
 
 
 func _process(_delta: float) -> void:
-	if dialogue_control.is_being_prompted:
+	interaction_icon.visible = (
+		player_state.current_state == PlayerState.States.INTERACTING
+		and _current_interactive != null
+	)
+	mouse_manager.is_hidden = player_state.current_state != PlayerState.States.BEING_PROMPTED
+
+	if player_state.current_state == PlayerState.States.BEING_PROMPTED:
 		return
 
 	if mouse.delta.length_squared() > 0:
@@ -32,7 +42,7 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if dialogue_control.is_being_prompted:
+	if player_state.current_state == PlayerState.States.BEING_PROMPTED:
 		return
 
 	_process_movement(delta)
@@ -40,17 +50,23 @@ func _physics_process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEvent and event.is_action_pressed("action_primary"):
-		# mouse_manager.is_hidden = dialogue_control.is_being_prompted
-		if not dialogue_control.is_being_prompted:
-			dialogue_control.advance()
-			mouse_manager.is_hidden = not dialogue_control.is_being_prompted
+		match player_state.current_state:
+			PlayerState.States.INTERACTING:
+				if _current_interactive:
+					_current_interactive.interact()
+			PlayerState.States.IN_DIALOGUE:
+				dialogue_control.advance()
 
 
 func _on_mouse_motion() -> void:
-	var is_colliding := ray_cast.is_colliding()
-
-	if not is_colliding:
+	var collider = ray_cast.get_collider()
+	# TODO: Choose collision layer based on state (placing vs. interacting)
+	var collision_layer_ := 2
+	if not collider or not collider.get_collision_layer_value(collision_layer_):
+		_current_interactive = null
 		return
+
+	_current_interactive = collider
 
 
 func _process_movement(delta: float) -> void:

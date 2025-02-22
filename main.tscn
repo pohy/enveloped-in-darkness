@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=14 format=3 uid="uid://bi83mgkfn0nc"]
 
 [ext_resource type="Texture2D" uid="uid://cpxalq40ck8m5" path="res://floor_tex_test.png" id="1_2qp3j"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_dqswr"]
@@ -8,17 +8,24 @@
 [ext_resource type="PackedScene" uid="uid://du3tbrm8gufj6" path="res://src/player.tscn" id="5_xm5xo"]
 [ext_resource type="Script" path="res://src/player_input_control.gd" id="7_onnio"]
 [ext_resource type="Script" path="res://src/continue_control.gd" id="8_ouwvi"]
+[ext_resource type="Script" path="res://src/interactive.gd" id="9_juwqr"]
+[ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="9_x1uuf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bf7mk"]
 shading_mode = 0
 albedo_texture = ExtResource("1_2qp3j")
 uv1_scale = Vector3(25, 25, 25)
 
+[sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ibdoh"]
+size = Vector3(1, 1, 0.2)
+
 [node name="Main" type="Node3D"]
 
-[node name="PlayerState" type="Node" parent="." node_paths=PackedStringArray("dialogue_control")]
+[node name="PlayerState" type="Node" parent="."]
 script = ExtResource("1_dqswr")
-dialogue_control = NodePath("../GUI/MarginContainer/VBoxContainer/DialogueControl")
 
 [node name="Player" parent="." node_paths=PackedStringArray("player_state", "dialogue_control") instance=ExtResource("5_xm5xo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10537, 0)
@@ -63,10 +70,10 @@ theme_override_constants/separation = 4
 [node name="DialogueControl" type="Node" parent="GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state")]
 script = ExtResource("3_bs2ni")
 dialogue = ExtResource("4_qu2rl")
-dialogue_label = NodePath("../RichTextLabel")
+dialogue_label = NodePath("../DialogueLabel")
 player_state = NodePath("../../../../PlayerState")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="DialogueLabel" type="RichTextLabel" parent="GUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Hello from dialogue"
@@ -92,3 +99,19 @@ size_flags_horizontal = 3
 text = "Continue"
 script = ExtResource("8_ouwvi")
 dialogue_control = NodePath("../../DialogueControl")
+
+[node name="Interactive" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.438272, -3.58423)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("9_juwqr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactive"]
+mesh = SubResource("BoxMesh_43oc4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
+shape = SubResource("BoxShape3D_ibdoh")
+script = ExtResource("9_x1uuf")
+mesh = NodePath("../MeshInstance3D")
+
+[connection signal="interacted" from="Interactive" to="PlayerState" method="on_interacted"]

@@ -31,6 +31,7 @@ func _on_text_changed() -> void:
 		set_caret_column(len(text))
 		return
 
-	player_state.prompts[_player_input_controls["name_attr"]] = text_stripped
+	# player_state.prompts[_player_input_controls["name_attr"]] = text_stripped
+	player_state.set_prompt(_player_input_controls["name_attr"], text_stripped)
 
 	dialogue_control.advance()

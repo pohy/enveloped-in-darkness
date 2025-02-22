@@ -65,6 +65,11 @@ action_secondary={
 "events": []
 }
 
+[layer_names]
+
+3d_physics/layer_1="environment"
+3d_physics/layer_2="interactive"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

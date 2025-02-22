@@ -3,7 +3,6 @@ extends Node
 
 var _is_hidden: bool = false
 
-var can_hide: bool = true
 @export var is_hidden: bool:
 	get:
 		return _is_hidden
@@ -15,7 +14,7 @@ func _ready() -> void:
 	_toggle(_is_hidden)
 
 
-# func _input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 # 	# TODO: We want to disable auto hiding when the player is being prompted
 # 	if (
 # 		not _is_hidden
@@ -24,12 +23,12 @@ func _ready() -> void:
 # 		and event.button_index == MOUSE_BUTTON_LEFT
 # 	):
 # 		_toggle(true)
-# 	if event.is_action_pressed("ui_cancel"):
-# 		if _is_hidden:
-# 			_toggle(false)
-# 		# else:
-# 		# 	# TODO: Coupling :D
-# 		# 	get_tree().quit()
+	if event.is_action_pressed("ui_cancel"):
+		if _is_hidden:
+			_toggle(false)
+		# else:
+		# 	# TODO: Coupling :D
+		# 	get_tree().quit()
 
 
 func _toggle(value: bool) -> void:
