@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://cu2j3l6ofcspx"]
+
+[ext_resource type="Script" path="res://rich_text_label_3d.gd" id="1_yq4rt"]
+[ext_resource type="Texture2D" uid="uid://ddftq0hxil7gr" path="res://icon.svg" id="2_i6amr"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cyvg7"]
+viewport_path = NodePath("SubViewportContainer/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_837b1"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_cyvg7")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i5upx"]
+size = Vector2(1, 0.75)
+
+[node name="RichTextLabel3D" type="Node3D" node_paths=PackedStringArray("rich_text_label")]
+script = ExtResource("1_yq4rt")
+text = "[center]
+3D Rich [i]label[/i]
+[/center]"
+rich_text_label = NodePath("SubViewportContainer/SubViewport/RichTextLabel")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_837b1")
+mesh = SubResource("PlaneMesh_i5upx")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 512.0
+offset_bottom = 384.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(512, 384)
+render_target_update_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport"]
+visible = false
+texture = ExtResource("2_i6amr")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/italics_font_size = 64
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center]
+3D Rich [i]label[/i]
+[/center]"
+scroll_active = false

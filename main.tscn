@@ -1,3 +1,10 @@
-[gd_scene format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=2 format=3 uid="uid://bi83mgkfn0nc"]
+
+[ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://rich_text_label_3d.tscn" id="1_o0b0h"]
 
 [node name="Main" type="Node3D"]
+
+[node name="RichTextLabel3D" parent="." instance=ExtResource("1_o0b0h")]
+text = "[center]
+3D Richness [i]label[/i]
+[/center]"
