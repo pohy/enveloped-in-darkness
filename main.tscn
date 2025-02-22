@@ -19,7 +19,7 @@ uv1_scale = Vector3(25, 25, 25)
 [sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ibdoh"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_pd47y"]
 size = Vector3(1, 1, 0.2)
 
 [node name="Main" type="Node3D"]
@@ -110,7 +110,7 @@ script = ExtResource("9_juwqr")
 mesh = SubResource("BoxMesh_43oc4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
-shape = SubResource("BoxShape3D_ibdoh")
+shape = SubResource("BoxShape3D_pd47y")
 script = ExtResource("9_x1uuf")
 mesh = NodePath("../MeshInstance3D")
 
