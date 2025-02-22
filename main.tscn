@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=10 format=3 uid="uid://bi83mgkfn0nc"]
 
 [ext_resource type="Texture2D" uid="uid://cpxalq40ck8m5" path="res://floor_tex_test.png" id="1_2qp3j"]
+[ext_resource type="Script" path="res://src/player_state.gd" id="1_dqswr"]
 [ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="1_o0b0h"]
 [ext_resource type="Script" path="res://src/dialogue_control.gd" id="3_bs2ni"]
 [ext_resource type="Resource" uid="uid://dqoxv5y36v3b6" path="res://dialogues/test_dialogue.tres" id="4_qu2rl"]
 [ext_resource type="PackedScene" uid="uid://du3tbrm8gufj6" path="res://src/player.tscn" id="5_xm5xo"]
+[ext_resource type="Script" path="res://src/player_input_control.gd" id="7_onnio"]
+[ext_resource type="Script" path="res://src/continue_control.gd" id="8_ouwvi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bf7mk"]
 shading_mode = 0
@@ -13,8 +16,14 @@ uv1_scale = Vector3(25, 25, 25)
 
 [node name="Main" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("5_xm5xo")]
+[node name="PlayerState" type="Node" parent="." node_paths=PackedStringArray("dialogue_control")]
+script = ExtResource("1_dqswr")
+dialogue_control = NodePath("../GUI/MarginContainer/VBoxContainer/DialogueControl")
+
+[node name="Player" parent="." node_paths=PackedStringArray("player_state", "dialogue_control") instance=ExtResource("5_xm5xo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10537, 0)
+player_state = NodePath("../PlayerState")
+dialogue_control = NodePath("../GUI/MarginContainer/VBoxContainer/DialogueControl")
 
 [node name="Floor" type="CSGBox3D" parent="."]
 material_override = SubResource("StandardMaterial3D_bf7mk")
@@ -25,9 +34,7 @@ size = Vector3(100, 0.1, 100)
 [node name="RichTextLabel3D" parent="." instance=ExtResource("1_o0b0h")]
 transform = Transform3D(0.875768, 0.374118, 0.305068, 0, 0.631961, -0.775001, -0.482732, 0.678721, 0.553451, -0.952723, 0.480824, -3.05861)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="GUI" type="Control" parent="CanvasLayer"]
+[node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +42,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI"]
+[node name="MarginContainer" type="MarginContainer" parent="GUI"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -49,19 +56,39 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="DialogueControl" type="Node" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label")]
+[node name="DialogueControl" type="Node" parent="GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state")]
 script = ExtResource("3_bs2ni")
 dialogue = ExtResource("4_qu2rl")
 dialogue_label = NodePath("../RichTextLabel")
+player_state = NodePath("../../../../PlayerState")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="GUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Hello from dialogue"
 fit_content = true
 
-[connection signal="advance_dialogue" from="Player" to="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl" method="advance"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerInputControl" type="TextEdit" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state")]
+layout_mode = 2
+size_flags_horizontal = 3
+context_menu_enabled = false
+scroll_fit_content_height = true
+caret_blink = true
+caret_multiple = false
+script = ExtResource("7_onnio")
+dialogue_control = NodePath("../../DialogueControl")
+player_state = NodePath("../../../../../PlayerState")
+
+[node name="ContinueControl" type="Button" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Continue"
+script = ExtResource("8_ouwvi")
+dialogue_control = NodePath("../../DialogueControl")

@@ -68,6 +68,8 @@ func get_continue_from_line(line: String):
 		printerr("Mising closing tag for continue in line:\n%s" % line)
 		return null
 
+	var continue_text := line.substr(start + len(start_partial), end - start - len(start_partial))
+
 	var match := line.substr(start, end + len(end_partial) - start)
 
-	return {"stripped": line.replace(match, "")}
+	return {"text": continue_text, "stripped": line.replace(match, "")}
