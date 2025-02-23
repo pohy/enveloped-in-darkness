@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=18 format=3 uid="uid://bi83mgkfn0nc"]
 
 [ext_resource type="Texture2D" uid="uid://cpxalq40ck8m5" path="res://floor_tex_test.png" id="1_2qp3j"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_dqswr"]
@@ -8,8 +8,10 @@
 [ext_resource type="Script" path="res://src/toggle_visibility.gd" id="5_j731v"]
 [ext_resource type="PackedScene" uid="uid://cxbjtkqt0ufvj" path="res://src/player.tscn" id="5_xm5xo"]
 [ext_resource type="Script" path="res://src/player_input_control.gd" id="7_onnio"]
+[ext_resource type="Script" path="res://src/dialogue_resource.gd" id="8_nj0vk"]
 [ext_resource type="Script" path="res://src/continue_control.gd" id="8_ouwvi"]
 [ext_resource type="Script" path="res://src/interactive.gd" id="9_juwqr"]
+[ext_resource type="Resource" uid="uid://duj1qsmd5j5fv" path="res://dialogues/opening_dialogue.tres" id="9_mauwx"]
 [ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="9_x1uuf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bf7mk"]
@@ -78,7 +80,7 @@ theme_override_constants/separation = 4
 
 [node name="DialogueControl" type="Node" parent="GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state")]
 script = ExtResource("3_bs2ni")
-dialogue = ExtResource("4_qu2rl")
+dialouges = Array[ExtResource("8_nj0vk")]([ExtResource("4_qu2rl"), ExtResource("9_mauwx")])
 dialogue_label = NodePath("../DialogueLabel")
 player_state = NodePath("../../../../PlayerState")
 
@@ -133,6 +135,8 @@ collision_mask = 4
 transform = Transform3D(0.885896, 0, 0.463884, 0, 1, 0, -0.463884, 0, 0.885896, -2.63979, -2.38419e-07, 0.95022)
 shape = SubResource("BoxShape3D_vlv6h")
 
+[connection signal="last_dialogue_reached" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="PlayerState" method="set_state_interacting"]
+[connection signal="last_line_reached" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="GUI/MarginContainer/VBoxContainer/DialogueControl" method="advance_dialogue"]
 [connection signal="interacted" from="Interactive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]
 [connection signal="body_entered" from="Area3D" to="RichTextLabel3D/ToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_exited" from="Area3D" to="RichTextLabel3D/ToggleVisibility" method="make_invisible" unbinds=1]

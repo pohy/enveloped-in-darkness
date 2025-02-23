@@ -5,16 +5,30 @@ enum Controls { CONTINUE, PLAYER_INPUT }
 
 signal dialogue_advanced(line: String, controls: Dictionary)
 signal last_line_reached
+signal last_dialogue_reached
 
-@export var dialogue: DialogueResource
+# @export var dialogue: DialogueResource
+@export var dialouges: Array[DialogueResource]
 @export var dialogue_label: RichTextLabel
 @export var player_state: PlayerState
 
+var dialogue: DialogueResource:
+	get:
+		if _current_dialogue_idx < 0 or _current_dialogue_idx > dialouges.size() - 1:
+			return DialogueResource.new()
+
+		return dialouges[_current_dialogue_idx]
+
 var _current_controls: Dictionary = {}
+var _current_dialogue_idx: int = 0
 
 var _current_line_idx: int = -1:
 	set(value):
 		_current_line_idx = value
+
+		if value < 0 or value > dialogue.lines.size() - 1:
+			return
+
 		var line := dialogue.lines[_current_line_idx]
 		var controls = {}
 
@@ -43,30 +57,57 @@ var _current_line_idx: int = -1:
 			dialogue_label.text = line
 
 
-func advance() -> void:
-	var next_line = _current_line_idx + 1
-	if next_line > dialogue.lines.size() - 1:
-		print("End of dialogue")
+func advance_line() -> void:
+	var next_line_idx = _current_line_idx + 1
+	print("Advancing line: %s -> %s" % [_current_line_idx, next_line_idx])
+	_current_line_idx = next_line_idx
+
+	if next_line_idx == dialogue.lines.size():
+		print("End of dialogue lines")
+		# TODO: Do we really want to transition player state here? Should be a signal within the editor
+		# player_state.set_state(PlayerState.States.INTERACTING)
 		last_line_reached.emit()
-		# TODO: Do we really want to transition player state here?
-		player_state.set_state(PlayerState.States.INTERACTING)
+		# return
+
+	if next_line_idx > dialogue.lines.size() - 1:
 		return
 
-	_current_line_idx = next_line
 	if (
 		_current_controls.has(Controls.PLAYER_INPUT)
 		and player_state.prompts.has(_current_controls[Controls.PLAYER_INPUT]["name_attr"])
 	):
-		advance()
+		# Skip prompt input when the prompt has already been answered
+		advance_line()
 		return
 
 
+func advance_dialogue() -> void:
+	var next_dialogue_idx = _current_dialogue_idx + 1
+	print("Advancing dialogue: %s -> %s" % [_current_dialogue_idx, next_dialogue_idx])
+	_current_dialogue_idx = next_dialogue_idx
+
+	if next_dialogue_idx == dialouges.size():
+		print("End of all dialogues")
+		# TODO: Do we really want to transition player state here? Should be a signal within the editor
+		# player_state.set_state(PlayerState.States.INTERACTING)
+		last_dialogue_reached.emit()
+		# return
+
+	if next_dialogue_idx > dialouges.size() - 1:
+		return
+
+	_current_line_idx = -1
+	advance_line()
+
+
 func _ready() -> void:
-	assert(dialogue is DialogueResource, "DialogueResource not set")
+	# assert(dialogue is DialogueResource, "DialogueResource not set")
 	assert(dialogue_label is RichTextLabel, "RichTextLabel not set")
 	assert(player_state is PlayerState, "PlayerState not set")
+	assert(dialouges.size() > 0, "No dialogues set")
 
-	dialogue.load()
+	for dialogue_resource in dialouges:
+		dialogue_resource.load()
 
 	dialogue_label.visible = false
 
@@ -81,4 +122,4 @@ func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerSt
 
 	if new_state == PlayerState.States.IN_DIALOGUE:
 		if _current_line_idx == -1:
-			advance()
+			advance_line()

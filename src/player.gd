@@ -65,11 +65,11 @@ func _input(event: InputEvent) -> void:
 				if _current_interactive:
 					_current_interactive.interact()
 			PlayerState.States.IN_DIALOGUE:
-				dialogue_control.advance()
+				dialogue_control.advance_line()
 			PlayerState.States.PLACING_PROMPT:
 				if _current_prompt_label:
 					_current_prompt_label.reparent(get_tree().root)
-					dialogue_control.advance()  # Will change PlayerState as a side-effect
+					dialogue_control.advance_line()  # Will change PlayerState as a side-effect
 					# player_state.set_previous_state()
 
 
@@ -110,7 +110,7 @@ func _process_movement(delta: float) -> void:
 
 func _start_placing_prompt():
 	_current_prompt_label = rich_text_label_3d_scene.instantiate()
-	_current_prompt_label.text = player_state.current_prompt
+	_current_prompt_label.text = player_state.prompts[player_state.current_prompt]
 	_current_prompt_label.rotate_x(deg_to_rad(90))
 	hold_point.add_child(_current_prompt_label)
 

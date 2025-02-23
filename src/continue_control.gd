@@ -33,4 +33,4 @@ func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerSt
 
 
 func _on_pressed() -> void:
-	dialogue_control.advance()
+	dialogue_control.advance_line()

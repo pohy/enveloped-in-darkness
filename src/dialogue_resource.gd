@@ -14,14 +14,17 @@ func load() -> void:
 		return
 
 	text = file.get_as_text()
-	lines = text.split("\n")
+	var lines_raw = text.split("\n")
 	# Filter out empty lines
-	for i in range(lines.size()):
-		if lines[i].strip_edges() == "":
-			lines.remove_at(i)
+	for i in range(lines_raw.size()):
+		if lines_raw[i].strip_edges() != "":
+			# lines.remove_at(i)
+			lines.append(lines_raw[i])
 
 	if lines.size() == 0:
 		printerr("No lines in file: " + file_path)
+
+	print("Loaded dialogue from '%s' with %s lines" % [file_path, lines.size()])
 
 	file.close()
 
