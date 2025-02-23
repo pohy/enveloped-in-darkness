@@ -35,10 +35,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	# interaction_icon.visible = (
-	# 	player_state.current_state == PlayerState.States.INTERACTING
-	# 	and _current_interactive != null
-	# )
 	mouse_manager.is_hidden = player_state.current_state != PlayerState.States.BEING_PROMPTED
 	_update_hand()
 
@@ -76,7 +72,6 @@ func _input(event: InputEvent) -> void:
 					await create_tween().tween_interval(0.2).finished
 					_current_prompt_label.reparent(get_tree().root)
 					dialogue_control.advance_line()  # Will change PlayerState as a side-effect
-					# player_state.set_previous_state()
 
 
 func _on_mouse_motion() -> void:
@@ -95,10 +90,6 @@ func _process_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	# if Input.is_action_just_pressed("jump") and is_on_floor():
-	# 	velocity.y = jump_velocity
-
 	var speed_current := speed_sprint if Input.is_action_pressed("sprint") else speed
 
 	# Get the input direction and handle the movement/deceleration.
@@ -116,6 +107,7 @@ func _process_movement(delta: float) -> void:
 
 func _start_placing_prompt():
 	_current_prompt_label = rich_text_label_3d_scene.instantiate()
+	_current_prompt_label.scale = Vector3.ONE * 3
 	_current_prompt_label.text = player_state.prompts[player_state.current_prompt]
 	_current_prompt_label.rotate_x(deg_to_rad(90))
 	hold_point.add_child(_current_prompt_label)
@@ -131,20 +123,9 @@ func _update_prompt_position():
 	var hit_position = ray_cast.get_collision_point()
 	var hit_normal = ray_cast.get_collision_normal()
 	_current_prompt_label.global_position = hit_position + hit_normal * 0.1
-	# _current_prompt_label.position = _current_prompt_label.to_local(hit_position) + Vector3.UP * 0.1
-	# _current_prompt_label.look_at(_current_prompt_label.global_transform.origin + hit_normal)
 
 
 func _update_hand():
-	# hand.visible = player_state.current_state == PlayerState.States.INTERACTING or player_state.current_state == PlayerState.States.PLACING_PROMPT
-
-	# if not hand.visible:
-	# 	return
-
-	# if _current_interactive != null:
-	# 	hand.set_state(Hand.States.OPEN)
-	# else:
-	# 	hand.set_state(Hand.States.IDLE)
 	match player_state.current_state:
 		PlayerState.States.INTERACTING:
 			if hand.current_state == Hand.States.GRAB:

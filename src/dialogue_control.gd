@@ -12,6 +12,9 @@ signal last_dialogue_reached
 @export var dialogue_label: RichTextLabel
 @export var player_state: PlayerState
 
+@export_group("Dependencies - Audio")
+@export var klavesnice_player: LoopingPlayer
+
 var dialogue: DialogueResource:
 	get:
 		if _current_dialogue_idx < 0 or _current_dialogue_idx > dialouges.size() - 1:
@@ -80,6 +83,12 @@ func advance_line() -> void:
 		advance_line()
 		return
 
+	dialogue_label.visible_ratio = 0
+	var duration_s := 1
+	var tween := create_tween().set_parallel(true)
+	klavesnice_player.begin(1)
+	tween.tween_property(dialogue_label, "visible_ratio", 1, duration_s)
+
 
 func advance_dialogue() -> void:
 	var next_dialogue_idx = _current_dialogue_idx + 1
@@ -105,6 +114,7 @@ func _ready() -> void:
 	assert(dialogue_label is RichTextLabel, "RichTextLabel not set")
 	assert(player_state is PlayerState, "PlayerState not set")
 	assert(dialouges.size() > 0, "No dialogues set")
+	assert(klavesnice_player is LoopingPlayer, "LoopingPlayer not set")
 
 	for dialogue_resource in dialouges:
 		dialogue_resource.load()

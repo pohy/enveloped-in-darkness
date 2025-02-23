@@ -1,0 +1,25 @@
+[gd_scene load_steps=9 format=3 uid="uid://coir35rsr6nml"]
+
+[ext_resource type="AudioStream" uid="uid://c33lxyvky45iq" path="res://audio/sfx/SFX_klavesnice_01.ogg" id="1_2h5db"]
+[ext_resource type="AudioStream" uid="uid://bjvb1ogwxgqmj" path="res://audio/sfx/SFX_klavesnice_02.ogg" id="2_oot11"]
+[ext_resource type="AudioStream" uid="uid://uj1j4u4tyv61" path="res://audio/sfx/SFX_klavesnice_03.ogg" id="3_ywao8"]
+[ext_resource type="AudioStream" uid="uid://dfnjkdk2eygls" path="res://audio/sfx/SFX_klavesnice_04.ogg" id="4_1towm"]
+[ext_resource type="AudioStream" uid="uid://b5jv5aa452x51" path="res://audio/sfx/SFX_klavesnice_05.ogg" id="5_u78v7"]
+[ext_resource type="AudioStream" uid="uid://cpn8ydmyogxjq" path="res://audio/sfx/SFX_klavesnice_06.ogg" id="6_7mai1"]
+[ext_resource type="Script" path="res://src/looping_player.gd" id="7_k6gx0"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8kq8o"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 6
+stream_0/stream = ExtResource("1_2h5db")
+stream_1/stream = ExtResource("2_oot11")
+stream_2/stream = ExtResource("3_ywao8")
+stream_3/stream = ExtResource("4_1towm")
+stream_4/stream = ExtResource("5_u78v7")
+stream_5/stream = ExtResource("6_7mai1")
+
+[node name="KlavesnicePlayer" type="AudioStreamPlayer"]
+stream = SubResource("AudioStreamRandomizer_8kq8o")
+bus = &"SFX"
+script = ExtResource("7_k6gx0")
