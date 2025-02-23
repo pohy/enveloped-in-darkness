@@ -154,3 +154,7 @@ func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerSt
 	match new_state:
 		PlayerState.States.PLACING_PROMPT:
 			_start_placing_prompt()
+		PlayerState.States.INTERACTING:
+			hand.set_state(Hand.States.OPEN)
+		PlayerState.States.PLACING_PROMPT:
+			hand.set_state(Hand.States.GRAB)
