@@ -3,8 +3,6 @@ extends TextEdit
 @export var dialogue_control: DialogueControl
 @export var player_state: PlayerState
 
-var _player_input_controls: Dictionary = {}
-
 
 func _ready() -> void:
 	assert(dialogue_control is DialogueControl, "DialogueControl not set")
@@ -14,14 +12,22 @@ func _ready() -> void:
 
 	dialogue_control.dialogue_advanced.connect(_on_dialogue_advanced)
 	text_changed.connect(_on_text_changed)
+	player_state.state_changed.connect(_on_player_state_changed)
 
 
 func _on_dialogue_advanced(_line: String, controls: Dictionary) -> void:
-	visible = controls.has(DialogueControl.Controls.PLAYER_INPUT)
+	_on_player_state_updated()
+
+
+func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerState.States) -> void:
+	_on_player_state_updated()
+
+
+func _on_player_state_updated():
+	visible = player_state.current_state == PlayerState.States.BEING_PROMPTED
 
 	if visible:
 		grab_focus()
-		_player_input_controls = controls[DialogueControl.Controls.PLAYER_INPUT]
 
 
 func _on_text_changed() -> void:
@@ -31,7 +37,8 @@ func _on_text_changed() -> void:
 		set_caret_column(len(text))
 		return
 
-	# player_state.prompts[_player_input_controls["name_attr"]] = text_stripped
-	player_state.set_prompt(_player_input_controls["name_attr"], text_stripped)
-
-	dialogue_control.advance()
+	# TODO: Private access, meh
+	var prompt_name = (
+		dialogue_control._current_controls[DialogueControl.Controls.PLAYER_INPUT]["name_attr"]
+	)
+	player_state.set_prompt(prompt_name, text_stripped)

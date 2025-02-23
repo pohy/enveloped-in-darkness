@@ -29,9 +29,13 @@ var _current_line_idx: int = -1:
 			controls[Controls.CONTINUE] = continue_parsed
 
 		_current_controls = controls
+		# When dialogue has controls, we want to switch to BEING_PROMPTED
+		# When there are controls no more, we want to switch to IN_DIALOGUE
+		# Although, prompting and in dialogue feel like sub-states of dialogue control
 		if controls.size() > 0:
 			player_state.set_state(PlayerState.States.BEING_PROMPTED)
 		else:
+			# TODO: How about removing/decoupling the state changes from here and letting the caller handle them?
 			player_state.set_state(PlayerState.States.IN_DIALOGUE)
 		dialogue_advanced.emit(line, controls)
 
@@ -63,20 +67,18 @@ func _ready() -> void:
 	assert(player_state is PlayerState, "PlayerState not set")
 
 	dialogue.load()
-	# advance()
 
 	dialogue_label.visible = false
 
-	# dialogue_label.text = dialogue.lines[_current_line_idx]
 	player_state.state_changed.connect(_on_player_state_changed)
 
 
 func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerState.States) -> void:
+	dialogue_label.visible = (
+		new_state == PlayerState.States.IN_DIALOGUE
+		or new_state == PlayerState.States.BEING_PROMPTED
+	)
+
 	if new_state == PlayerState.States.IN_DIALOGUE:
-		dialogue_label.visible = true
 		if _current_line_idx == -1:
 			advance()
-	else:
-		dialogue_label.visible = false
-
-		# advance()

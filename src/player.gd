@@ -12,10 +12,13 @@ extends CharacterBody3D
 @export var player_state: PlayerState
 @export var dialogue_control: DialogueControl
 @export var interaction_icon: Sprite2D
+@export var hold_point: Node3D
+@export var rich_text_label_3d_scene: PackedScene
 
 @export_category("Dependencies - Audio")
 
 var _current_interactive: Interactive = null
+var _current_prompt_label: RichTextLabel3D = null
 
 
 func _ready() -> void:
@@ -25,6 +28,10 @@ func _ready() -> void:
 	assert(player_state is PlayerState, "PlayerState not set")
 	assert(dialogue_control is DialogueControl, "DialogueControl not set")
 	assert(interaction_icon is Sprite2D, "Interaction icon not set")
+	assert(rich_text_label_3d_scene is PackedScene, "RichTextLabel 3D scene not set")
+	assert(hold_point is Node3D, "Hold point not set")
+
+	player_state.state_changed.connect(_on_player_state_changed)
 
 
 func _process(_delta: float) -> void:
@@ -56,6 +63,11 @@ func _input(event: InputEvent) -> void:
 					_current_interactive.interact()
 			PlayerState.States.IN_DIALOGUE:
 				dialogue_control.advance()
+			PlayerState.States.PLACING_PROMPT:
+				if _current_prompt_label:
+					_current_prompt_label.reparent(get_tree().root)
+					dialogue_control.advance()  # Will change PlayerState as a side-effect
+					# player_state.set_previous_state()
 
 
 func _on_mouse_motion() -> void:
@@ -91,3 +103,16 @@ func _process_movement(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, speed_current)
 
 	move_and_slide()
+
+
+func _on_placing_prompt():
+	_current_prompt_label = rich_text_label_3d_scene.instantiate()
+	_current_prompt_label.text = player_state.current_prompt
+	_current_prompt_label.rotate_x(deg_to_rad(90))
+	hold_point.add_child(_current_prompt_label)
+
+
+func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerState.States) -> void:
+	match new_state:
+		PlayerState.States.PLACING_PROMPT:
+			_on_placing_prompt()

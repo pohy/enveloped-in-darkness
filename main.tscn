@@ -20,7 +20,7 @@ uv1_scale = Vector3(25, 25, 25)
 [sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_nyrdg"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_dd3jd"]
 size = Vector3(1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vlv6h"]
@@ -102,12 +102,13 @@ script = ExtResource("7_onnio")
 dialogue_control = NodePath("../../DialogueControl")
 player_state = NodePath("../../../../../PlayerState")
 
-[node name="ContinueControl" type="Button" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control")]
+[node name="ContinueControl" type="Button" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state")]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Continue"
 script = ExtResource("8_ouwvi")
 dialogue_control = NodePath("../../DialogueControl")
+player_state = NodePath("../../../../../PlayerState")
 
 [node name="Interactive" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.438272, -3.58423)
@@ -119,7 +120,7 @@ script = ExtResource("9_juwqr")
 mesh = SubResource("BoxMesh_43oc4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
-shape = SubResource("BoxShape3D_nyrdg")
+shape = SubResource("BoxShape3D_dd3jd")
 script = ExtResource("9_x1uuf")
 mesh = NodePath("../MeshInstance3D")
 

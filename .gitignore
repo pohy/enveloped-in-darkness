@@ -5,3 +5,6 @@
 !**/*/.gitkeep
 !**/.gitkeep
 export/
+
+.DS_Store
+.idea/

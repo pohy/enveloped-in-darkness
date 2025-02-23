@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://du3tbrm8gufj6"]
+[gd_scene load_steps=11 format=3 uid="uid://du3tbrm8gufj6"]
 
 [ext_resource type="Script" path="res://src/player.gd" id="1_ogkgb"]
+[ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="2_kpqmn"]
 [ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="2_td41a"]
 [ext_resource type="Script" path="res://src/camera.gd" id="3_jqia4"]
 [ext_resource type="Script" path="res://addons/mouse/mouse.gd" id="4_pe5bc"]
@@ -15,13 +16,15 @@ albedo_color = Color(0.44, 0.44, 0.44, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_whwjk"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager", "interaction_icon")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager", "interaction_icon", "hold_point")]
 collision_layer = 4
 script = ExtResource("1_ogkgb")
 ray_cast = NodePath("Camera3D/RayCast3D")
 mouse = NodePath("MouseInpt")
 mouse_manager = NodePath("MouseManager")
 interaction_icon = NodePath("Control/CenterContainer/InteractionIcon")
+hold_point = NodePath("Camera3D/HoldPoint")
+rich_text_label_3d_scene = ExtResource("2_kpqmn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false
@@ -45,6 +48,9 @@ mouse_manager = NodePath("../MouseManager")
 target_position = Vector3(0, 0, -5)
 collision_mask = 3
 collide_with_areas = true
+
+[node name="HoldPoint" type="Marker3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.10017)
 
 [node name="MouseInpt" type="Node" parent="."]
 script = ExtResource("4_pe5bc")
