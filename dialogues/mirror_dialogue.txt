@@ -1,0 +1,37 @@
+When everything is engulfed in darkness, you can’t see clearly.
+The future is lost.
+The present is suffering.
+The past is forgotten.
+All happiness from the past is clouded by today's sadness.
+But was it ever any different?
+Haven’t I been miserable all my life?
+Was there even a point in time when life was worth living?
+I don’t know. I can’t remember anything.
+Maybe your favourite memory could help me remember too.
+Please, my friend.
+Think of a moment in your life you come back to whenever you need strength. 
+A pure, protective magical concentration of happiness and hope.
+Tell me.
+What is your happiest memory?
+
+Answer
+
+Player input - the happy memory
+
+Thank you, my friend. You were utmost helpful.
+
+The room is lighted up. The doors open, and the text next to the door vanishes. The player comes to the door and leaves the room
+
+I couldn’t do all of that without your help.
+Listening to what makes you happy, what makes your heartbeat.
+What your reasons for getting up every morning are…
+What makes your life worth living…
+It was all very inspiring.
+I think that now…
+I finally know how to move forth.
+I finally know what I should do.
+
+Doors get shut with a screeching sound. The screen gets darker, and only a small beam of light is shining under the door
+
+…
+[wave amp=50.0 freq=5.0 connected=1]Now I finally know how to destroy you.[/wave]

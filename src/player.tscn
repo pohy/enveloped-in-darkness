@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://du3tbrm8gufj6"]
+[gd_scene load_steps=11 format=3 uid="uid://cxbjtkqt0ufvj"]
 
 [ext_resource type="Script" path="res://src/player.gd" id="1_ogkgb"]
 [ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="2_kpqmn"]
@@ -14,7 +14,7 @@ albedo_color = Color(0.44, 0.44, 0.44, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tclkv"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_whwjk"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wo125"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager", "interaction_icon", "hold_point")]
 collision_layer = 4
@@ -33,7 +33,7 @@ cast_shadow = 0
 mesh = SubResource("CapsuleMesh_tclkv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." node_paths=PackedStringArray("mesh")]
-shape = SubResource("CapsuleShape3D_whwjk")
+shape = SubResource("CapsuleShape3D_wo125")
 script = ExtResource("2_td41a")
 mesh = NodePath("../MeshInstance3D")
 
