@@ -132,6 +132,6 @@ collision_mask = 4
 transform = Transform3D(0.885896, 0, 0.463884, 0, 1, 0, -0.463884, 0, 0.885896, -2.63979, -2.38419e-07, 0.95022)
 shape = SubResource("BoxShape3D_vlv6h")
 
-[connection signal="interacted" from="Interactive" to="PlayerState" method="on_interacted"]
+[connection signal="interacted" from="Interactive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]
 [connection signal="body_entered" from="Area3D" to="RichTextLabel3D/ToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_exited" from="Area3D" to="RichTextLabel3D/ToggleVisibility" method="make_invisible" unbinds=1]

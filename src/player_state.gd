@@ -38,10 +38,9 @@ func set_state_being_prompted() -> void:
 func set_state_placing_prompt() -> void:
 	set_state(States.PLACING_PROMPT)
 
-
-func on_interacted(interactive_name: Interactive.Name) -> void:
-	match interactive_name:
-		Interactive.Name.DOOR:
-			set_state(States.IN_DIALOGUE)
-		_:
-			set_state(States.INTERACTING)
+# func on_interacted(interactive_name: Interactive.Name) -> void:
+# 	match interactive_name:
+# 		Interactive.Name.DOOR:
+# 			set_state(States.IN_DIALOGUE)
+# 		_:
+# 			set_state(States.INTERACTING)
