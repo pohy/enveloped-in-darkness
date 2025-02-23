@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://src/dialogue_control.gd" id="3_bs2ni"]
 [ext_resource type="Resource" uid="uid://dqoxv5y36v3b6" path="res://dialogues/test_dialogue.tres" id="4_qu2rl"]
 [ext_resource type="Script" path="res://src/toggle_visibility.gd" id="5_j731v"]
-[ext_resource type="PackedScene" uid="uid://du3tbrm8gufj6" path="res://src/player.tscn" id="5_xm5xo"]
+[ext_resource type="PackedScene" uid="uid://cxbjtkqt0ufvj" path="res://src/player.tscn" id="5_xm5xo"]
 [ext_resource type="Script" path="res://src/player_input_control.gd" id="7_onnio"]
 [ext_resource type="Script" path="res://src/continue_control.gd" id="8_ouwvi"]
 [ext_resource type="Script" path="res://src/interactive.gd" id="9_juwqr"]
@@ -20,7 +20,7 @@ uv1_scale = Vector3(25, 25, 25)
 [sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_dd3jd"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_vttj4"]
 size = Vector3(1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vlv6h"]
@@ -120,7 +120,7 @@ script = ExtResource("9_juwqr")
 mesh = SubResource("BoxMesh_43oc4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
-shape = SubResource("BoxShape3D_dd3jd")
+shape = SubResource("BoxShape3D_vttj4")
 script = ExtResource("9_x1uuf")
 mesh = NodePath("../MeshInstance3D")
 

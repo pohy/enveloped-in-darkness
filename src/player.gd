@@ -47,6 +47,9 @@ func _process(_delta: float) -> void:
 	if mouse.delta.length_squared() > 0:
 		_on_mouse_motion()
 
+	if player_state.current_state == PlayerState.States.PLACING_PROMPT:
+		_update_prompt_position()
+
 
 func _physics_process(delta: float) -> void:
 	if player_state.current_state == PlayerState.States.BEING_PROMPTED:
@@ -105,14 +108,28 @@ func _process_movement(delta: float) -> void:
 	move_and_slide()
 
 
-func _on_placing_prompt():
+func _start_placing_prompt():
 	_current_prompt_label = rich_text_label_3d_scene.instantiate()
 	_current_prompt_label.text = player_state.current_prompt
 	_current_prompt_label.rotate_x(deg_to_rad(90))
 	hold_point.add_child(_current_prompt_label)
 
 
+func _update_prompt_position():
+	if not ray_cast.is_colliding():
+		_current_prompt_label.position = Vector3.ZERO
+		_current_prompt_label.rotation_degrees = Vector3.ZERO
+		_current_prompt_label.rotate_x(deg_to_rad(90))
+		return
+
+	var hit_position = ray_cast.get_collision_point()
+	var hit_normal = ray_cast.get_collision_normal()
+	_current_prompt_label.global_position = hit_position + hit_normal * 0.1
+	# _current_prompt_label.position = _current_prompt_label.to_local(hit_position) + Vector3.UP * 0.1
+	# _current_prompt_label.look_at(_current_prompt_label.global_transform.origin + hit_normal)
+
+
 func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerState.States) -> void:
 	match new_state:
 		PlayerState.States.PLACING_PROMPT:
-			_on_placing_prompt()
+			_start_placing_prompt()
