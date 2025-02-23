@@ -42,3 +42,4 @@ func _on_text_changed() -> void:
 		dialogue_control._current_controls[DialogueControl.Controls.PLAYER_INPUT]["name_attr"]
 	)
 	player_state.set_prompt(prompt_name, text_stripped)
+	text = ""

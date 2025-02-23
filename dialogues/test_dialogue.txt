@@ -3,4 +3,5 @@ Let's continue...
 ...our [b]conversation[/b]
 How are you? [player_input name=mood][/player_input][continue]Not telling you[/continue]
 I've asked nicely, how are you? [player_input name=mood][/player_input]
+And another question: [player_input name=question][/player_input]
 Great, thanks.
