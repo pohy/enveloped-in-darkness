@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 GameSettings="*res://src/game_settings.gd"
 TextureState="*res://src/texture_state.gd"
 
+[display]
+
+window/size/resizable=false
+
 [gui]
 
 theme/custom="res://global_theme.tres"

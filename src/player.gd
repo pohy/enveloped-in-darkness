@@ -11,9 +11,9 @@ extends CharacterBody3D
 @export var mouse_manager: MouseManager
 @export var player_state: PlayerState
 @export var dialogue_control: DialogueControl
-@export var interaction_icon: Sprite2D
 @export var hold_point: Node3D
 @export var rich_text_label_3d_scene: PackedScene
+@export var hand: Hand
 
 @export_category("Dependencies - Audio")
 
@@ -27,19 +27,20 @@ func _ready() -> void:
 	assert(mouse_manager is MouseManager, "MouseManager not set")
 	assert(player_state is PlayerState, "PlayerState not set")
 	assert(dialogue_control is DialogueControl, "DialogueControl not set")
-	assert(interaction_icon is Sprite2D, "Interaction icon not set")
 	assert(rich_text_label_3d_scene is PackedScene, "RichTextLabel 3D scene not set")
 	assert(hold_point is Node3D, "Hold point not set")
+	assert(hand is Hand, "Hand not set")
 
 	player_state.state_changed.connect(_on_player_state_changed)
 
 
 func _process(_delta: float) -> void:
-	interaction_icon.visible = (
-		player_state.current_state == PlayerState.States.INTERACTING
-		and _current_interactive != null
-	)
+	# interaction_icon.visible = (
+	# 	player_state.current_state == PlayerState.States.INTERACTING
+	# 	and _current_interactive != null
+	# )
 	mouse_manager.is_hidden = player_state.current_state != PlayerState.States.BEING_PROMPTED
+	_update_hand()
 
 	if player_state.current_state == PlayerState.States.BEING_PROMPTED:
 		return
@@ -63,11 +64,16 @@ func _input(event: InputEvent) -> void:
 		match player_state.current_state:
 			PlayerState.States.INTERACTING:
 				if _current_interactive:
-					_current_interactive.interact()
+					hand.set_state(Hand.States.GRAB)
+					var interactive := _current_interactive
+					await create_tween().tween_interval(0.2).finished
+					interactive.interact()
 			PlayerState.States.IN_DIALOGUE:
 				dialogue_control.advance_line()
 			PlayerState.States.PLACING_PROMPT:
 				if _current_prompt_label:
+					hand.set_state(Hand.States.OPEN)
+					await create_tween().tween_interval(0.2).finished
 					_current_prompt_label.reparent(get_tree().root)
 					dialogue_control.advance_line()  # Will change PlayerState as a side-effect
 					# player_state.set_previous_state()
@@ -127,6 +133,31 @@ func _update_prompt_position():
 	_current_prompt_label.global_position = hit_position + hit_normal * 0.1
 	# _current_prompt_label.position = _current_prompt_label.to_local(hit_position) + Vector3.UP * 0.1
 	# _current_prompt_label.look_at(_current_prompt_label.global_transform.origin + hit_normal)
+
+
+func _update_hand():
+	# hand.visible = player_state.current_state == PlayerState.States.INTERACTING or player_state.current_state == PlayerState.States.PLACING_PROMPT
+
+	# if not hand.visible:
+	# 	return
+
+	# if _current_interactive != null:
+	# 	hand.set_state(Hand.States.OPEN)
+	# else:
+	# 	hand.set_state(Hand.States.IDLE)
+	match player_state.current_state:
+		PlayerState.States.INTERACTING:
+			if hand.current_state == Hand.States.GRAB:
+				return
+			hand.visible = true
+			hand.set_state(Hand.States.IDLE if _current_interactive == null else Hand.States.OPEN)
+		PlayerState.States.PLACING_PROMPT:
+			hand.visible = true
+			if hand.current_state == Hand.States.OPEN:
+				return
+			hand.set_state(Hand.States.GRAB)
+		_:
+			hand.visible = false
 
 
 func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerState.States) -> void:

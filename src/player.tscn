@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxbjtkqt0ufvj"]
+[gd_scene load_steps=14 format=3 uid="uid://cxbjtkqt0ufvj"]
 
 [ext_resource type="Script" path="res://src/player.gd" id="1_ogkgb"]
 [ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="2_kpqmn"]
@@ -6,7 +6,10 @@
 [ext_resource type="Script" path="res://src/camera.gd" id="3_jqia4"]
 [ext_resource type="Script" path="res://addons/mouse/mouse.gd" id="4_pe5bc"]
 [ext_resource type="Script" path="res://addons/mouse/mouse_manager.gd" id="5_r2lxd"]
-[ext_resource type="Texture2D" uid="uid://ddftq0hxil7gr" path="res://icon.svg" id="6_sp7b5"]
+[ext_resource type="Script" path="res://src/hand.gd" id="8_6fsqx"]
+[ext_resource type="Texture2D" uid="uid://dqq3qc2e76d3l" path="res://assets/hand_open.png" id="9_pyd85"]
+[ext_resource type="Texture2D" uid="uid://ct2vsyf7jr4kv" path="res://assets/hand_idle.png" id="10_av4k8"]
+[ext_resource type="Texture2D" uid="uid://doygm3s14rfff" path="res://assets/hand_grab.png" id="11_xoeyp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fx7rw"]
 shading_mode = 0
@@ -14,17 +17,17 @@ albedo_color = Color(0.44, 0.44, 0.44, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tclkv"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wo125"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cahom"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager", "interaction_icon", "hold_point")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager", "hold_point", "hand")]
 collision_layer = 4
 script = ExtResource("1_ogkgb")
 ray_cast = NodePath("Camera3D/RayCast3D")
 mouse = NodePath("MouseInpt")
 mouse_manager = NodePath("MouseManager")
-interaction_icon = NodePath("Control/CenterContainer/InteractionIcon")
 hold_point = NodePath("Camera3D/HoldPoint")
 rich_text_label_3d_scene = ExtResource("2_kpqmn")
+hand = NodePath("Control/Hand")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false
@@ -33,7 +36,7 @@ cast_shadow = 0
 mesh = SubResource("CapsuleMesh_tclkv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." node_paths=PackedStringArray("mesh")]
-shape = SubResource("CapsuleShape3D_wo125")
+shape = SubResource("CapsuleShape3D_cahom")
 script = ExtResource("2_td41a")
 mesh = NodePath("../MeshInstance3D")
 
@@ -72,15 +75,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
+[node name="Hand" type="TextureRect" parent="Control"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="InteractionIcon" type="Sprite2D" parent="Control/CenterContainer"]
-texture = ExtResource("6_sp7b5")
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1000.0
+offset_top = -1173.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.352, 0.352)
+pivot_offset = Vector2(1000, 1173)
+texture = ExtResource("10_av4k8")
+script = ExtResource("8_6fsqx")
+texture_open = ExtResource("9_pyd85")
+texture_idle = ExtResource("10_av4k8")
+texture_grab = ExtResource("11_xoeyp")
