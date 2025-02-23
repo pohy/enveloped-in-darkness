@@ -13,9 +13,7 @@ Is it true?
 Tell me…
 Do you have any calming activities in your daily routine?
 Something you like to do to calm your nerves?
-
-Player input - the ritual
-
+[player_input name=ritual][/player_input]
 Thank you.
 Yes, that sounds enjoyable indeed.
 Sadly, in my life, it is just responsibilities all the way through.
@@ -30,5 +28,4 @@ Maybe you could help me…?
 Tell me, my friend. 
 Are there any activities that bring you joy?
 What activity helps rekindle your spirit?
-
-Player input - an activity that brings the player happiness
+[player_input name=activity][/player_input]

@@ -1,21 +1,28 @@
-[gd_scene load_steps=22 format=3 uid="uid://bskqqeblxxkt0"]
+[gd_scene load_steps=32 format=3 uid="uid://bskqqeblxxkt0"]
 
 [ext_resource type="PackedScene" uid="uid://cxbjtkqt0ufvj" path="res://src/player.tscn" id="1_naty0"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_oek4m"]
+[ext_resource type="Script" path="res://src/texture_state_control.gd" id="2_7bq8p"]
 [ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="3_pc7mb"]
 [ext_resource type="Script" path="res://src/dialogue_control.gd" id="4_5yknr"]
-[ext_resource type="Resource" uid="uid://dqoxv5y36v3b6" path="res://dialogues/test_dialogue.tres" id="5_8ftpj"]
 [ext_resource type="Script" path="res://src/fix_imported_model.gd" id="5_ggdq6"]
 [ext_resource type="PackedScene" uid="uid://chf3vvmvcd2pl" path="res://assets/strop.glb" id="6_d52iy"]
 [ext_resource type="PackedScene" uid="uid://yv8fwp0mydvp" path="res://src/wall.tscn" id="8_4a60a"]
 [ext_resource type="PackedScene" uid="uid://ci4pp8qre6cas" path="res://assets/floor.glb" id="9_4b1y8"]
 [ext_resource type="PackedScene" uid="uid://cmswqajr0gglo" path="res://assets/broken_mirror.glb" id="9_42pl4"]
-[ext_resource type="PackedScene" uid="uid://di8q26qrtjxcl" path="res://lampScene.tscn" id="9_ksmge"]
+[ext_resource type="PackedScene" uid="uid://di8q26qrtjxcl" path="res://src/lampScene.tscn" id="9_ksmge"]
 [ext_resource type="Script" path="res://src/toggle_visibility.gd" id="10_bmgde"]
 [ext_resource type="PackedScene" uid="uid://bwk80igfmtocw" path="res://assets/picture.glb" id="10_ctw0f"]
 [ext_resource type="Script" path="res://src/dialogue_resource.gd" id="11_e4u52"]
-[ext_resource type="PackedScene" uid="uid://cqtf7p7x7hh3j" path="res://doorScene.tscn" id="12_0n3nb"]
+[ext_resource type="PackedScene" uid="uid://cqtf7p7x7hh3j" path="res://src/doorScene.tscn" id="12_0n3nb"]
 [ext_resource type="Resource" uid="uid://cixq83lxsu5pd" path="res://dialogues/opening_dialogue.tres" id="12_mnxj5"]
+[ext_resource type="Resource" uid="uid://1njydytvc4sx" path="res://dialogues/photo_dialogue.tres" id="14_uokft"]
+[ext_resource type="Script" path="res://src/interactive.gd" id="16_jcmfq"]
+[ext_resource type="Resource" uid="uid://2lvhui52v7jy" path="res://dialogues/candle_dialogue.tres" id="16_nr50m"]
+[ext_resource type="Script" path="res://src/player_input_control.gd" id="16_t68pk"]
+[ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="17_aufe8"]
+[ext_resource type="Script" path="res://src/continue_control.gd" id="17_fefts"]
+[ext_resource type="Resource" uid="uid://3e5bg4w26trj" path="res://dialogues/mirror_dialogues.tres" id="17_l3xfe"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8m8pm"]
 load_path = "res://.godot/imported/doortex_doortex.png-98647917930a3b4b533f1bf7acc06d34.s3tc.ctex"
@@ -29,21 +36,33 @@ albedo_texture = SubResource("CompressedTexture2D_8m8pm")
 heightmap_enabled = true
 heightmap_scale = -15.635
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ju1nq"]
-size = Vector3(4.57458, 0.846191, 5.74268)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_r35w4"]
-size = Vector3(2.69805, 1.41113, 2.35949)
+size = Vector3(4.87742, 1.41113, 6.27736)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d3lyc"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7cq0d"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tayth"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wpn7g"]
+size = Vector3(1, 1, 0.2)
 
 [node name="Room_blocks" type="Node3D"]
 
 [node name="PlayerState" type="Node" parent="."]
 script = ExtResource("1_oek4m")
 
+[node name="TextureStateControl" type="Node" parent="."]
+script = ExtResource("2_7bq8p")
+
 [node name="Player" parent="." node_paths=PackedStringArray("player_state", "dialogue_control") instance=ExtResource("1_naty0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0258892, 1.2513, 3.62637)
 player_state = NodePath("../PlayerState")
-dialogue_control = NodePath("../CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl")
+dialogue_control = NodePath("../CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2")
 
 [node name="Floor" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00956154, 0, -27.7894)
@@ -89,13 +108,6 @@ script = ExtResource("5_ggdq6")
 [node name="Ceiling" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.542877, 5.48807, 0.35884)
 
-[node name="Ceiling" type="CSGBox3D" parent="Ceiling"]
-visible = false
-material_override = SubResource("StandardMaterial3D_bf7mk")
-use_collision = true
-collision_mask = 0
-size = Vector3(16.8007, 0.1, 11.7602)
-
 [node name="strop" parent="Ceiling" instance=ExtResource("6_d52iy")]
 transform = Transform3D(1.13947, -1.39698e-08, 3.89991e-08, 1.07102e-08, 1.13947, 1.49012e-08, 1.01281e-08, -7.45058e-08, 1.13947, 0.286097, -6.85547, 0.806097)
 script = ExtResource("5_ggdq6")
@@ -119,28 +131,50 @@ script = ExtResource("5_ggdq6")
 [node name="strop2" parent="Ceiling" instance=ExtResource("6_d52iy")]
 transform = Transform3D(1, -4.65661e-09, 1.39698e-09, 4.19095e-09, 1, 0, 2.91038e-09, -1.49012e-08, 1, 37.036, -6.06526, -9.41662)
 
-[node name="Photo" parent="." instance=ExtResource("10_ctw0f")]
-transform = Transform3D(-0.0465265, -0.0931548, -0.994564, 0.0255017, 0.995207, -0.094408, 0.998591, -0.0297555, -0.043928, 9.14343, 0.225696, -0.779815)
+[node name="Photography" type="Node3D" parent="."]
+transform = Transform3D(-0.0465265, -0.0931548, -0.994564, 0.0255017, 0.995207, -0.094408, 0.998591, -0.0297555, -0.043928, 9.14408, 0.225338, -0.793828)
+
+[node name="PhotoModel" parent="Photography" instance=ExtResource("10_ctw0f")]
+transform = Transform3D(1, 1.86265e-09, 0, 1.86265e-09, 1, -5.3551e-09, 0, -3.25963e-09, 1, 0, 0, 0)
 script = ExtResource("5_ggdq6")
 
-[node name="PhotoLabel" parent="Photo" instance=ExtResource("3_pc7mb")]
+[node name="PhotoLabel" parent="Photography" instance=ExtResource("3_pc7mb")]
 transform = Transform3D(0.482882, 0.864864, -0.023811, -0.0920502, 0.0247489, -0.929228, -0.839916, 0.494512, 0.088149, -2.2889, 3.58987, 2.23982)
 text = "[center]
 A group photo. But why is that one person standing aside?
 
 [/center]"
 
-[node name="PhotoLabelToggleVisibility" type="Node" parent="Photo/PhotoLabel" node_paths=PackedStringArray("target")]
+[node name="PhotoLabelToggleVisibility" type="Node" parent="Photography/PhotoLabel" node_paths=PackedStringArray("target")]
 script = ExtResource("10_bmgde")
 target = NodePath("..")
 initial_visibility = false
 
-[node name="PhotoArea3D" type="Area3D" parent="Photo"]
-transform = Transform3D(-0.998592, 0.0255017, -0.0465267, 0.0297556, 0.995207, -0.0931548, 0.043928, -0.094408, -0.994564, -2.2405, 0.752928, 3.6633)
+[node name="PhotoArea3D" type="Area3D" parent="Photography"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.856348, -1.49012e-08, 0.380237)
+collision_layer = 0
+collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Photo/PhotoArea3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.772645, 0.0769043, -0.390381)
-shape = SubResource("BoxShape3D_ju1nq")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Photography/PhotoArea3D"]
+transform = Transform3D(1, 0, -2.68221e-07, 2.01166e-07, 0.993632, 0.112735, 1.00583e-07, -0.112736, 0.993624, -0.414418, 1.12137, 3.73356)
+shape = SubResource("BoxShape3D_r35w4")
+
+[node name="PhotoInteractive" type="StaticBody3D" parent="Photography"]
+transform = Transform3D(-4.35892e-08, -3.26677e-09, 1, -0.0747351, 0.997203, 0, -0.997203, -0.0747351, -4.37114e-08, -2.70494, 3.07172, 4.02808)
+visible = false
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("16_jcmfq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Photography/PhotoInteractive"]
+transform = Transform3D(2.37871, 0.0304295, -4.83414e-14, -0.0436386, 1.6587, 0, 6.7323e-14, 8.61225e-16, 1.70804, 0.20849, 0.460639, -0.659879)
+mesh = SubResource("BoxMesh_d3lyc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Photography/PhotoInteractive" node_paths=PackedStringArray("mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20849, 0.460639, -0.659879)
+shape = SubResource("BoxShape3D_7cq0d")
+script = ExtResource("17_aufe8")
+mesh = NodePath("../MeshInstance3D")
 
 [node name="Bed" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.53415, 0.572034, -3.20048)
@@ -188,7 +222,7 @@ shape = SubResource("BoxShape3D_r35w4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.263484, 0, 0)
 
 [node name="CandleLabel" parent="TableGroup" instance=ExtResource("3_pc7mb")]
-transform = Transform3D(-0.587931, -0.744812, -0.258178, -0.0806937, 0.402669, -0.850574, 0.771319, -0.525599, -0.285778, 5.83601, 1.73562, 3.95654)
+transform = Transform3D(-0.587931, -0.744812, -0.258178, -0.0806937, 0.402669, -0.850574, 0.771319, -0.525599, -0.285778, 5.893, 1.92339, 4.01963)
 text = "[center]
 A candle. It burnt out a long time ago.
 
@@ -240,18 +274,8 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TableGroup/TableArea3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.56714, 0.955012, 2.7368)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.77833, 0.955012, 3.21109)
 shape = SubResource("BoxShape3D_r35w4")
-
-[node name="LongWallRight2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31785, 2.15454, -28.0797)
-material_override = SubResource("StandardMaterial3D_bf7mk")
-use_collision = true
-collision_mask = 0
-size = Vector3(0.1, 4.80908, 45.7866)
-
-[node name="lamp" parent="." instance=ExtResource("9_ksmge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.09855, -0.768332, 0.789418)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -281,20 +305,39 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="DialogueControl" type="Node" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state")]
+[node name="DialogueControl2" type="Node" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state")]
 script = ExtResource("4_5yknr")
-dialouges = Array[ExtResource("11_e4u52")]([ExtResource("12_mnxj5"), ExtResource("5_8ftpj")])
-dialogue_label = NodePath("../RichTextLabel")
+dialouges = Array[ExtResource("11_e4u52")]([ExtResource("12_mnxj5"), ExtResource("14_uokft"), ExtResource("16_nr50m"), ExtResource("17_l3xfe")])
+dialogue_label = NodePath("../DialogueLabel")
 player_state = NodePath("../../../../../PlayerState")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer"]
+[node name="DialogueLabel" type="RichTextLabel" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[center]
-With such a broken mirror, it is impossible to see things
-
-[/center]"
+text = "Hello from dialogue"
 fit_content = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerInputControl" type="TextEdit" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state")]
+layout_mode = 2
+size_flags_horizontal = 3
+context_menu_enabled = false
+scroll_fit_content_height = true
+caret_blink = true
+caret_multiple = false
+script = ExtResource("16_t68pk")
+dialogue_control = NodePath("../../DialogueControl2")
+player_state = NodePath("../../../../../../PlayerState")
+
+[node name="ContinueControl" type="Button" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Continue"
+script = ExtResource("17_fefts")
+dialogue_control = NodePath("../../DialogueControl2")
+player_state = NodePath("../../../../../../PlayerState")
 
 [node name="Walls" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00956154, 0, -27.7894)
@@ -504,6 +547,64 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.14)
 [node name="PWall5" parent="Walls/RightWall" instance=ExtResource("8_4a60a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9.52)
 
+[node name="Mirror" parent="." instance=ExtResource("9_42pl4")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.63182, -0.381246, 1.59275)
+script = ExtResource("5_ggdq6")
+
+[node name="Mirror LabelGroup" type="Node3D" parent="Mirror"]
+transform = Transform3D(0.442001, 0.881994, -0.163461, -0.0163076, -0.174297, -0.984557, -0.896867, 0.437841, -0.0626563, -3.04904, 4.00686, -2.29004)
+
+[node name="MirrorLabel" parent="Mirror/Mirror LabelGroup" instance=ExtResource("3_pc7mb")]
+transform = Transform3D(0.956305, -0.292372, 0, 0.292372, 0.956305, 0, 0, 0, 1, -0.302008, 0.268471, 0.0446168)
+text = "[center]
+With such a broken mirror, it is impossible to see things
+
+[/center]"
+
+[node name="Mirror1LabelToggleVisibility" type="Node" parent="Mirror/Mirror LabelGroup/MirrorLabel" node_paths=PackedStringArray("target")]
+script = ExtResource("10_bmgde")
+target = NodePath("..")
+initial_visibility = false
+
+[node name="MirrorLabel2" parent="Mirror/Mirror LabelGroup" instance=ExtResource("3_pc7mb")]
+transform = Transform3D(0.956305, -0.292372, 0, 0.292372, 0.956306, 0, 0, 0, 1, -0.331211, 0.23663, 0.752867)
+text = "[center]
+as they are.
+Everything is distorted.
+
+[/center]"
+
+[node name="Mirror2LabelToggleVisibility" type="Node" parent="Mirror/Mirror LabelGroup/MirrorLabel2" node_paths=PackedStringArray("target")]
+script = ExtResource("10_bmgde")
+target = NodePath("..")
+initial_visibility = false
+
+[node name="MirrorInteractive" type="StaticBody3D" parent="Mirror"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.70494, 3.06982, 0.208409)
+visible = false
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("16_jcmfq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mirror/MirrorInteractive"]
+transform = Transform3D(2.44084, 0, -4.83414e-14, 0, 3.78209, 0, 6.90814e-14, 0, 1.70804, 0.178691, 0.39601, -0.790948)
+mesh = SubResource("BoxMesh_d3lyc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mirror/MirrorInteractive" node_paths=PackedStringArray("mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.178691, 0.39601, -0.790948)
+shape = SubResource("BoxShape3D_tayth")
+script = ExtResource("17_aufe8")
+mesh = NodePath("../MeshInstance3D")
+
+[node name="MirrorArea3D" type="Area3D" parent="Mirror"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15708, -4.76837e-07, 0.629925)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mirror/MirrorArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.183915, 1.83013, -1.0276)
+shape = SubResource("BoxShape3D_r35w4")
+
 [node name="Door" parent="." instance=ExtResource("12_0n3nb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.52066, 0, -5.13041)
 
@@ -528,60 +629,43 @@ collision_mask = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.629, 1.04079, -3.78462)
 shape = SubResource("BoxShape3D_r35w4")
 
+[node name="DoorInteractive" type="StaticBody3D" parent="Door"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.547476, 3.05858, -1.37245)
+visible = false
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("16_jcmfq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Door/DoorInteractive"]
+transform = Transform3D(2.5, 0, -2.83023e-14, 0, 5, 0, 7.07558e-14, 0, 1, 0, -0.226151, -0.0366068)
+mesh = SubResource("BoxMesh_d3lyc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door/DoorInteractive" node_paths=PackedStringArray("mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.226151, -0.0366068)
+shape = SubResource("BoxShape3D_wpn7g")
+script = ExtResource("17_aufe8")
+mesh = NodePath("../MeshInstance3D")
+
 [node name="DoorInCorridor" parent="." instance=ExtResource("12_0n3nb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.52066, 0, -41.0219)
 
-[node name="Mirror" parent="." instance=ExtResource("9_42pl4")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.63182, -0.881871, 1.59275)
-script = ExtResource("5_ggdq6")
+[node name="Lamp" parent="." instance=ExtResource("9_ksmge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.09855, -0.768332, 0.789418)
 
-[node name="Mirror LabelGroup" type="Node3D" parent="Mirror"]
-transform = Transform3D(0.442001, 0.881994, -0.163461, -0.0163076, -0.174297, -0.984557, -0.896867, 0.437841, -0.0626563, -3.04904, 4.00686, -2.29004)
-
-[node name="MirrorLabel" parent="Mirror/Mirror LabelGroup" node_paths=PackedStringArray("rich_text_label") instance=ExtResource("3_pc7mb")]
-transform = Transform3D(0.956305, -0.292372, 0, 0.292372, 0.956305, 0, 0, 0, 1, -0.302008, 0.268471, 0.0446168)
-text = "[center]
-With such a broken mirror, it is impossible to see things
-
-[/center]"
-rich_text_label = NodePath("../../../CanvasLayer/GUI/MarginContainer/VBoxContainer/RichTextLabel")
-
-[node name="Mirror1LabelToggleVisibility" type="Node" parent="Mirror/Mirror LabelGroup/MirrorLabel" node_paths=PackedStringArray("target")]
-script = ExtResource("10_bmgde")
-target = NodePath("..")
-initial_visibility = false
-
-[node name="MirrorLabel2" parent="Mirror/Mirror LabelGroup" instance=ExtResource("3_pc7mb")]
-transform = Transform3D(0.956305, -0.292372, 0, 0.292372, 0.956306, 0, 0, 0, 1, -0.331211, 0.23663, 0.752867)
-text = "[center]
-as they are.
-Everything is distorted.
-
-[/center]"
-
-[node name="Mirror2LabelToggleVisibility" type="Node" parent="Mirror/Mirror LabelGroup/MirrorLabel2" node_paths=PackedStringArray("target")]
-script = ExtResource("10_bmgde")
-target = NodePath("..")
-initial_visibility = false
-
-[node name="MirrorArea3D" type="Area3D" parent="Mirror"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15708, -4.76837e-07, 0.629925)
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Mirror/MirrorArea3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.183915, 1.83013, -1.0276)
-shape = SubResource("BoxShape3D_r35w4")
-
-[connection signal="body_entered" from="Photo/PhotoArea3D" to="Photo/PhotoLabel/PhotoLabelToggleVisibility" method="make_visible" unbinds=1]
-[connection signal="body_exited" from="Photo/PhotoArea3D" to="Photo/PhotoLabel/PhotoLabelToggleVisibility" method="make_invisible" unbinds=1]
+[connection signal="body_entered" from="Photography/PhotoArea3D" to="Photography/PhotoLabel/PhotoLabelToggleVisibility" method="make_visible" unbinds=1]
+[connection signal="body_exited" from="Photography/PhotoArea3D" to="Photography/PhotoLabel/PhotoLabelToggleVisibility" method="make_invisible" unbinds=1]
+[connection signal="interacted" from="Photography/PhotoInteractive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]
 [connection signal="body_entered" from="Closet/ClosetArea3D" to="Closet/ClosetLabel/ClosetLabelToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_exited" from="Closet/ClosetArea3D" to="Closet/ClosetLabel/ClosetLabelToggleVisibility" method="make_invisible" unbinds=1]
 [connection signal="body_entered" from="TableGroup/TableArea3D" to="TableGroup/CandleLabel/CandleLabelToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_exited" from="TableGroup/TableArea3D" to="TableGroup/CandleLabel/CandleLabelToggleVisibility" method="make_invisible" unbinds=1]
-[connection signal="body_entered" from="Door/DoorArea3D" to="Door/DoorLabel/DoorLabelToggleVisibility" method="make_visible" unbinds=1]
-[connection signal="body_exited" from="Door/DoorArea3D" to="Door/DoorLabel/DoorLabelToggleVisibility" method="make_invisible" unbinds=1]
+[connection signal="last_dialogue_reached" from="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" to="PlayerState" method="set_state_interacting"]
+[connection signal="last_line_reached" from="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" to="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" method="advance_dialogue"]
+[connection signal="interacted" from="Mirror/MirrorInteractive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]
 [connection signal="body_entered" from="Mirror/MirrorArea3D" to="Mirror/Mirror LabelGroup/MirrorLabel/Mirror1LabelToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_entered" from="Mirror/MirrorArea3D" to="Mirror/Mirror LabelGroup/MirrorLabel2/Mirror2LabelToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_exited" from="Mirror/MirrorArea3D" to="Mirror/Mirror LabelGroup/MirrorLabel/Mirror1LabelToggleVisibility" method="make_invisible" unbinds=1]
 [connection signal="body_exited" from="Mirror/MirrorArea3D" to="Mirror/Mirror LabelGroup/MirrorLabel2/Mirror2LabelToggleVisibility" method="make_invisible" unbinds=1]
+[connection signal="body_entered" from="Door/DoorArea3D" to="Door/DoorLabel/DoorLabelToggleVisibility" method="make_visible" unbinds=1]
+[connection signal="body_exited" from="Door/DoorArea3D" to="Door/DoorLabel/DoorLabelToggleVisibility" method="make_invisible" unbinds=1]
+[connection signal="interacted" from="Door/DoorInteractive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]

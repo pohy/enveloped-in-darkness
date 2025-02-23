@@ -27,6 +27,7 @@ window/size/resizable=false
 [gui]
 
 theme/custom="res://global_theme.tres"
+theme/custom_font="res://fonts/Kalam/Kalam-Regular.ttf"
 
 [input]
 

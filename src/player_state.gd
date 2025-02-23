@@ -55,3 +55,7 @@ func set_state_placing_prompt() -> void:
 # 			set_state(States.IN_DIALOGUE)
 # 		_:
 # 			set_state(States.INTERACTING)
+
+
+func _on_dialogue_control_2_last_dialogue_reached() -> void:
+	pass # Replace with function body.

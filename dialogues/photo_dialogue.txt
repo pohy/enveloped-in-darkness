@@ -12,25 +12,13 @@ Do you have someone you can lean on?
 A person who is always there for you? 
 Tell me…
 Who in your life can you call a true friend?
-
-Answer		Avoid the question
-
-You don’t want to help me?
-But why? Is there a reason?
-
-Answer		Try to avoid the question
-
-I guess you’re just like everybody else. 
-But I can’t say I quite gather why you are this stubborn.
-What do you stand to lose? 
-Please… I simply need your help…
-I have nobody else…
-A short answer… So I can finally understand… 
-
-Answer
-
-Player input - the name of their best friend
-
+[player_input name=friend][/player_input][continue] I don't want to share [/continue]
+You don’t want to help me? But why? Is there a reason? [player_input name=friend][/player_input] [continue] That is personal question [/continue]
+I guess you’re [b]just[/b] like everybody else. [player_input name=friend][/player_input][continue] I won't answer you [/continue]
+But I can’t say I quite gather why you are this stubborn. [player_input name=friend][/player_input][continue] Don't be so pushy [/continue]
+What do you stand to lose? Please… I simply need your help… [player_input name=friend][/player_input][continue] Please let me go [/continue]
+I have nobody else… [player_input name=friend][/player_input][continue] ... [/continue]
+A short answer… So I can finally understand… [player_input name=friend][/player_input]
 Thank you. I am truly grateful to you. 
 It must be nice to have supportive friends.
 But even if one has no friends…
@@ -44,11 +32,7 @@ My family isn’t there for me…
 But you don’t have that problem, do you?
 Tell me, my friend.
 Who in your family are you closest to?
-
-Answer
-
-Player input - the name of a family member
-
+[player_input name=family][/player_input]
 That’s great. It must be wonderful to have someone you can rely on.
 To not feel lost, or forgotten…
 To feel that you matter to someone…
