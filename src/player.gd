@@ -16,6 +16,9 @@ extends CharacterBody3D
 @export var hand: Hand
 
 @export_category("Dependencies - Audio")
+@export var kroky_player: LoopingPlayer
+@export var place_player: AudioStreamPlayer
+@export var interact_player: AudioStreamPlayer
 
 var _current_interactive: Interactive = null
 var _current_prompt_label: RichTextLabel3D = null
@@ -30,6 +33,9 @@ func _ready() -> void:
 	assert(rich_text_label_3d_scene is PackedScene, "RichTextLabel 3D scene not set")
 	assert(hold_point is Node3D, "Hold point not set")
 	assert(hand is Hand, "Hand not set")
+	assert(kroky_player is LoopingPlayer, "Kroky player not set")
+	assert(place_player is AudioStreamPlayer, "Place player not set")
+	assert(interact_player is AudioStreamPlayer, "Interact player not set")
 
 	player_state.state_changed.connect(_on_player_state_changed)
 
@@ -62,6 +68,7 @@ func _input(event: InputEvent) -> void:
 				if _current_interactive:
 					hand.set_state(Hand.States.GRAB)
 					var interactive := _current_interactive
+					interact_player.play()
 					await create_tween().tween_interval(0.2).finished
 					interactive.interact()
 			PlayerState.States.IN_DIALOGUE:
@@ -69,6 +76,7 @@ func _input(event: InputEvent) -> void:
 			PlayerState.States.PLACING_PROMPT:
 				if _current_prompt_label:
 					hand.set_state(Hand.States.OPEN)
+					place_player.play()
 					await create_tween().tween_interval(0.2).finished
 					_current_prompt_label.reparent(get_tree().root)
 					dialogue_control.advance_line()  # Will change PlayerState as a side-effect
@@ -101,6 +109,13 @@ func _process_movement(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed_current)
 		velocity.z = move_toward(velocity.z, 0, speed_current)
+
+	if direction.length_squared() > 0 and is_on_floor():
+		if not kroky_player.playing:
+			kroky_player.begin()
+	else:
+		if kroky_player.playing:
+			kroky_player.end()
 
 	move_and_slide()
 

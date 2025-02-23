@@ -3,10 +3,14 @@ extends Button
 @export var dialogue_control: DialogueControl
 @export var player_state: PlayerState
 
+@export_category("Dependencies - Audio")
+@export var deny_player: AudioStreamPlayer
+
 
 func _ready() -> void:
 	assert(dialogue_control is DialogueControl, "DialogueControl not set")
 	assert(player_state is PlayerState, "PlayerState not set")
+	assert(deny_player is AudioStreamPlayer, "Deny player not set")
 
 	visible = false
 
@@ -34,3 +38,4 @@ func _on_player_state_changed(new_state: PlayerState.States, old_state: PlayerSt
 
 func _on_pressed() -> void:
 	dialogue_control.advance_line()
+	deny_player.play()

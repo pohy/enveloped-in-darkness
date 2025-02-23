@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://yv8fwp0mydvp"]
+[gd_scene load_steps=9 format=3 uid="uid://c404pghb6hiqq"]
 
 [ext_resource type="PackedScene" uid="uid://b6w2k3kwu7ild" path="res://assets/wall_tile.glb" id="1_kgxwv"]
 [ext_resource type="Script" path="res://src/fix_imported_model.gd" id="2_20yi6"]

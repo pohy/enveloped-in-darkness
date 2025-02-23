@@ -3,10 +3,16 @@ extends TextEdit
 @export var dialogue_control: DialogueControl
 @export var player_state: PlayerState
 
+@export_category("Dependencies - Audio")
+@export var klavesnice_player: LoopingPlayer
+@export var confirm_player: AudioStreamPlayer
+
 
 func _ready() -> void:
 	assert(dialogue_control is DialogueControl, "DialogueControl not set")
 	assert(player_state is PlayerState, "PlayerState not set")
+	assert(klavesnice_player is LoopingPlayer, "Klavesnice player not set")
+	assert(confirm_player is AudioStreamPlayer, "Confirm player not set")
 
 	visible = false
 
@@ -31,12 +37,16 @@ func _on_player_state_updated():
 
 
 func _on_text_changed() -> void:
+	klavesnice_player.begin(0.5)
+
 	var text_stripped := text.strip_edges()
 	if len(text_stripped) <= 0 or text[len(text) - 1] != "\n":
 		text = text.replace("\n", "")
 		set_caret_column(len(text))
 		return
 
+	klavesnice_player.end()
+	confirm_player.play()
 	# TODO: Private access, meh
 	var prompt_name = (
 		dialogue_control._current_controls[DialogueControl.Controls.PLAYER_INPUT]["name_attr"]

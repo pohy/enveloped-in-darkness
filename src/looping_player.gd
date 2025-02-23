@@ -8,7 +8,7 @@ func _ready() -> void:
 	finished.connect(_on_finished)
 
 
-func begin(duration_s := -1) -> void:
+func begin(duration_s := -1.0) -> void:
 	_should_loop = true
 	play()
 

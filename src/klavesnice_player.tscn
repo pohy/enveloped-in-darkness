@@ -23,3 +23,5 @@ stream_5/stream = ExtResource("6_7mai1")
 stream = SubResource("AudioStreamRandomizer_8kq8o")
 bus = &"SFX"
 script = ExtResource("7_k6gx0")
+
+[node name="This is actually not the player typing" type="Node" parent="."]
