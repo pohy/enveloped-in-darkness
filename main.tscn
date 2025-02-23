@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=20 format=3 uid="uid://bi83mgkfn0nc"]
 
 [ext_resource type="Texture2D" uid="uid://cpxalq40ck8m5" path="res://floor_tex_test.png" id="1_2qp3j"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_dqswr"]
 [ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="1_o0b0h"]
+[ext_resource type="Script" path="res://src/texture_state_control.gd" id="2_vgjfr"]
 [ext_resource type="Script" path="res://src/dialogue_control.gd" id="3_bs2ni"]
 [ext_resource type="Resource" uid="uid://dqoxv5y36v3b6" path="res://dialogues/test_dialogue.tres" id="4_qu2rl"]
 [ext_resource type="Script" path="res://src/toggle_visibility.gd" id="5_j731v"]
@@ -13,6 +14,7 @@
 [ext_resource type="Script" path="res://src/interactive.gd" id="9_juwqr"]
 [ext_resource type="Resource" uid="uid://duj1qsmd5j5fv" path="res://dialogues/opening_dialogue.tres" id="9_mauwx"]
 [ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="9_x1uuf"]
+[ext_resource type="PackedScene" uid="uid://c404pghb6hiqq" path="res://src/wall.tscn" id="14_6omtp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bf7mk"]
 shading_mode = 0
@@ -22,7 +24,7 @@ uv1_scale = Vector3(25, 25, 25)
 [sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vttj4"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ywbju"]
 size = Vector3(1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vlv6h"]
@@ -32,6 +34,9 @@ size = Vector3(2.82, 1, 2.78)
 
 [node name="PlayerState" type="Node" parent="."]
 script = ExtResource("1_dqswr")
+
+[node name="TextureStateControl" type="Node" parent="."]
+script = ExtResource("2_vgjfr")
 
 [node name="Player" parent="." node_paths=PackedStringArray("player_state", "dialogue_control") instance=ExtResource("5_xm5xo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10537, 0)
@@ -122,7 +127,7 @@ script = ExtResource("9_juwqr")
 mesh = SubResource("BoxMesh_43oc4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
-shape = SubResource("BoxShape3D_vttj4")
+shape = SubResource("BoxShape3D_ywbju")
 script = ExtResource("9_x1uuf")
 mesh = NodePath("../MeshInstance3D")
 
@@ -135,6 +140,10 @@ collision_mask = 4
 transform = Transform3D(0.885896, 0, 0.463884, 0, 1, 0, -0.463884, 0, 0.885896, -2.63979, -2.38419e-07, 0.95022)
 shape = SubResource("BoxShape3D_vlv6h")
 
+[node name="Wall" parent="." instance=ExtResource("14_6omtp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.37566, 0, 0.918152)
+
+[connection signal="dialogue_advanced" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="TextureStateControl" method="advance" unbinds=2]
 [connection signal="last_dialogue_reached" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="PlayerState" method="set_state_interacting"]
 [connection signal="last_line_reached" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="GUI/MarginContainer/VBoxContainer/DialogueControl" method="advance_dialogue"]
 [connection signal="interacted" from="Interactive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]

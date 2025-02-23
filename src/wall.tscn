@@ -1,7 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://yv8fwp0mydvp"]
+[gd_scene load_steps=9 format=3 uid="uid://c404pghb6hiqq"]
 
 [ext_resource type="PackedScene" uid="uid://b6w2k3kwu7ild" path="res://assets/wall_tile.glb" id="1_kgxwv"]
 [ext_resource type="Script" path="res://src/fix_imported_model.gd" id="2_20yi6"]
+[ext_resource type="Script" path="res://src/advance_texture.gd" id="3_flrra"]
+[ext_resource type="Texture2D" uid="uid://da1kudqiscqbk" path="res://assets/stena4.png" id="4_kt0ho"]
+[ext_resource type="Texture2D" uid="uid://wk52bhry2i20" path="res://assets/stena3.png" id="5_2ujxr"]
+[ext_resource type="Texture2D" uid="uid://bnpninelg7tp4" path="res://assets/stena2.png" id="6_j1v24"]
+[ext_resource type="Texture2D" uid="uid://d13j75qvmokj2" path="res://assets/stena1.png" id="7_evilk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_63uu1"]
 size = Vector3(1, 5.70526, 2.37673)
@@ -14,3 +19,8 @@ script = ExtResource("2_20yi6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -0.000110626)
 shape = SubResource("BoxShape3D_63uu1")
+
+[node name="AdvanceTexture" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("3_flrra")
+textures = Array[Texture]([ExtResource("4_kt0ho"), ExtResource("5_2ujxr"), ExtResource("6_j1v24"), ExtResource("7_evilk")])
+target = NodePath("../wall_tile_3")
