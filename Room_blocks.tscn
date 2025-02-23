@@ -23,7 +23,7 @@
 [ext_resource type="Script" path="res://src/player_input_control.gd" id="16_t68pk"]
 [ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="17_aufe8"]
 [ext_resource type="Script" path="res://src/continue_control.gd" id="17_fefts"]
-[ext_resource type="Resource" path="res://dialogues/mirror_dialogues.tres" id="17_l3xfe"]
+[ext_resource type="Resource" uid="uid://6o4yac57u7n8" path="res://dialogues/mirror_dialogues.tres" id="17_l3xfe"]
 [ext_resource type="PackedScene" path="res://src/klavesnice_player.tscn" id="20_6v7vb"]
 [ext_resource type="PackedScene" uid="uid://sgp8ikgoa73x" path="res://src/candleScene.tscn" id="24_8884f"]
 [ext_resource type="PackedScene" uid="uid://b2ke4u4gy0wlj" path="res://src/BedScene.tscn" id="25_yb5cy"]
@@ -59,6 +59,7 @@ size = Vector3(1, 1, 0.2)
 size = Vector3(1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rvn6b"]
+size = Vector3(3.27246, 4.29114, 2.61523)
 
 [node name="Room_blocks" type="Node3D"]
 
@@ -116,6 +117,7 @@ script = ExtResource("5_ggdq6")
 
 [node name="Ceiling" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.542877, 5.48807, 0.35884)
+visible = false
 
 [node name="strop" parent="Ceiling" instance=ExtResource("6_d52iy")]
 transform = Transform3D(1.13947, -1.39698e-08, 3.89991e-08, 1.07102e-08, 1.13947, 1.49012e-08, 1.01281e-08, -7.45058e-08, 1.13947, 0.286097, -6.85547, 0.806097)
@@ -690,9 +692,12 @@ script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
 [node name="Area3D" type="Area3D" parent="Door"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1034, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.38335, 0, -1.20091)
+collision_layer = 0
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Door/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13623, 1.64557, -0.302734)
 shape = SubResource("BoxShape3D_rvn6b")
 
 [node name="DoorInCorridor" parent="." instance=ExtResource("12_0n3nb")]
@@ -733,3 +738,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.09855, -0.768332, 0.789418
 [connection signal="interacted" from="Door/DoorInteractive" to="Photography/PhotoInteractive" method="enable" unbinds=1]
 [connection signal="interacted" from="Door/DoorInteractive" to="MusicPlayer" method="switch_to_phase_0" unbinds=1]
 [connection signal="interacted" from="Door/DoorInteractive" to="Door/DoorInteractive" method="disable" unbinds=1]
+[connection signal="body_entered" from="Door/Area3D" to="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" method="advance_dialogue" unbinds=1]
