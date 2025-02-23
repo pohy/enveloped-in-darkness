@@ -69,6 +69,7 @@ action_secondary={
 
 3d_physics/layer_1="environment"
 3d_physics/layer_2="interactive"
+3d_physics/layer_3="player"
 
 [rendering]
 

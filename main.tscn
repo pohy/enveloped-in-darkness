@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=16 format=3 uid="uid://bi83mgkfn0nc"]
 
 [ext_resource type="Texture2D" uid="uid://cpxalq40ck8m5" path="res://floor_tex_test.png" id="1_2qp3j"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_dqswr"]
 [ext_resource type="PackedScene" uid="uid://cu2j3l6ofcspx" path="res://src/rich_text_label_3d.tscn" id="1_o0b0h"]
 [ext_resource type="Script" path="res://src/dialogue_control.gd" id="3_bs2ni"]
 [ext_resource type="Resource" uid="uid://dqoxv5y36v3b6" path="res://dialogues/test_dialogue.tres" id="4_qu2rl"]
+[ext_resource type="Script" path="res://src/toggle_visibility.gd" id="5_j731v"]
 [ext_resource type="PackedScene" uid="uid://du3tbrm8gufj6" path="res://src/player.tscn" id="5_xm5xo"]
 [ext_resource type="Script" path="res://src/player_input_control.gd" id="7_onnio"]
 [ext_resource type="Script" path="res://src/continue_control.gd" id="8_ouwvi"]
@@ -19,8 +20,11 @@ uv1_scale = Vector3(25, 25, 25)
 [sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_pd47y"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_nyrdg"]
 size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vlv6h"]
+size = Vector3(2.82, 1, 2.78)
 
 [node name="Main" type="Node3D"]
 
@@ -40,6 +44,11 @@ size = Vector3(100, 0.1, 100)
 
 [node name="RichTextLabel3D" parent="." instance=ExtResource("1_o0b0h")]
 transform = Transform3D(0.875768, 0.374118, 0.305068, 0, 0.631961, -0.775001, -0.482732, 0.678721, 0.553451, -0.952723, 0.480824, -3.05861)
+
+[node name="ToggleVisibility" type="Node" parent="RichTextLabel3D" node_paths=PackedStringArray("target")]
+script = ExtResource("5_j731v")
+target = NodePath("..")
+initial_visibility = false
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -110,8 +119,19 @@ script = ExtResource("9_juwqr")
 mesh = SubResource("BoxMesh_43oc4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
-shape = SubResource("BoxShape3D_pd47y")
+shape = SubResource("BoxShape3D_nyrdg")
 script = ExtResource("9_x1uuf")
 mesh = NodePath("../MeshInstance3D")
 
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895635, 0, -3.61058)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.885896, 0, 0.463884, 0, 1, 0, -0.463884, 0, 0.885896, -2.63979, -2.38419e-07, 0.95022)
+shape = SubResource("BoxShape3D_vlv6h")
+
 [connection signal="interacted" from="Interactive" to="PlayerState" method="on_interacted"]
+[connection signal="body_entered" from="Area3D" to="RichTextLabel3D/ToggleVisibility" method="make_visible" unbinds=1]
+[connection signal="body_exited" from="Area3D" to="RichTextLabel3D/ToggleVisibility" method="make_invisible" unbinds=1]

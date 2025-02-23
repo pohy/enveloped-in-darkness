@@ -13,10 +13,10 @@ albedo_color = Color(0.44, 0.44, 0.44, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tclkv"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6bba2"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_whwjk"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ray_cast", "mouse", "mouse_manager", "interaction_icon")]
-collision_layer = 0
+collision_layer = 4
 script = ExtResource("1_ogkgb")
 ray_cast = NodePath("Camera3D/RayCast3D")
 mouse = NodePath("MouseInpt")
@@ -30,7 +30,7 @@ cast_shadow = 0
 mesh = SubResource("CapsuleMesh_tclkv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." node_paths=PackedStringArray("mesh")]
-shape = SubResource("CapsuleShape3D_6bba2")
+shape = SubResource("CapsuleShape3D_whwjk")
 script = ExtResource("2_td41a")
 mesh = NodePath("../MeshInstance3D")
 
