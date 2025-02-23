@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bskqqeblxxkt0"]
+[gd_scene load_steps=47 format=3 uid="uid://bskqqeblxxkt0"]
 
 [ext_resource type="PackedScene" uid="uid://cxbjtkqt0ufvj" path="res://src/player.tscn" id="1_naty0"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_oek4m"]
@@ -26,8 +26,13 @@
 [ext_resource type="Resource" uid="uid://6o4yac57u7n8" path="res://dialogues/mirror_dialogues.tres" id="17_l3xfe"]
 [ext_resource type="PackedScene" path="res://src/klavesnice_player.tscn" id="20_6v7vb"]
 [ext_resource type="Resource" uid="uid://ckn1q0ekwt8c4" path="res://dialogues/final_dialogue.tres" id="21_n0u5k"]
+[ext_resource type="AudioStream" uid="uid://dlx1rv5p4a5u2" path="res://audio/sfx/SFX_odhalovani_textu.ogg" id="22_kxkgg"]
+[ext_resource type="AudioStream" uid="uid://bn0s0d43hv17v" path="res://audio/sfx/SFX_odhalovani_textu_varianta2.ogg" id="23_v1g37"]
+[ext_resource type="Script" path="res://src/looping_player.gd" id="24_03lrn"]
 [ext_resource type="PackedScene" uid="uid://sgp8ikgoa73x" path="res://src/candleScene.tscn" id="24_8884f"]
+[ext_resource type="AudioStream" uid="uid://dm71hjyhten2u" path="res://audio/sfx/SFX_odmitnuti_spoluprace.ogg" id="25_0ah5r"]
 [ext_resource type="PackedScene" uid="uid://b2ke4u4gy0wlj" path="res://src/BedScene.tscn" id="25_yb5cy"]
+[ext_resource type="AudioStream" uid="uid://wgw15p7m2s6w" path="res://audio/sfx/SFX_odkliknuti_textu.ogg" id="27_y5xn3"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8m8pm"]
 load_path = "res://.godot/imported/doortex_doortex.png-98647917930a3b4b533f1bf7acc06d34.s3tc.ctex"
@@ -47,16 +52,36 @@ size = Vector3(4.87742, 1.41113, 6.27736)
 [sub_resource type="BoxMesh" id="BoxMesh_d3lyc"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5n80n"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_37kdr"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_d0ld4"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4qpi"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_icqsc"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_gnbtk"]
+playback_mode = 1
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 2
+stream_0/stream = ExtResource("22_kxkgg")
+stream_1/stream = ExtResource("23_v1g37")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tboge"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("27_y5xn3")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6oyfi"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("25_0ah5r")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qaf77"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ifdjf"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_eamdc"]
 size = Vector3(1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rvn6b"]
@@ -192,7 +217,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Photography/PhotoInteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07114, 0.484114, -0.659879)
-shape = SubResource("BoxShape3D_5n80n")
+shape = SubResource("BoxShape3D_37kdr")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
@@ -264,7 +289,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Candle/Candlenteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1085, 3.43738, -0.415397)
-shape = SubResource("BoxShape3D_d0ld4")
+shape = SubResource("BoxShape3D_t4qpi")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
@@ -351,10 +376,11 @@ script = ExtResource("4_5yknr")
 dialouges = Array[ExtResource("11_e4u52")]([ExtResource("12_mnxj5"), ExtResource("14_uokft"), ExtResource("16_nr50m"), ExtResource("17_l3xfe"), ExtResource("21_n0u5k")])
 dialogue_label = NodePath("../DialogueLabel")
 player_state = NodePath("../../../../../PlayerState")
-odhalovani_player = NodePath("KlavesnicePlayer")
+odhalovani_player = NodePath("OdhalovaniPlayer")
 
-[node name="KlavesnicePlayer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" instance=ExtResource("20_6v7vb")]
-bus = &"Master"
+[node name="OdhalovaniPlayer" type="AudioStreamPlayer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2"]
+stream = SubResource("AudioStreamRandomizer_gnbtk")
+script = ExtResource("24_03lrn")
 
 [node name="DialogueLabel" type="RichTextLabel" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -375,8 +401,14 @@ caret_multiple = false
 script = ExtResource("16_t68pk")
 dialogue_control = NodePath("../../DialogueControl2")
 player_state = NodePath("../../../../../../PlayerState")
-klavesnice_player = NodePath("../../DialogueControl2/KlavesnicePlayer")
-confirm_player = NodePath("../../../../../../MusicPlayer")
+klavesnice_player = NodePath("KlavesnicePlayer")
+confirm_player = NodePath("ConfirmPlayer")
+
+[node name="KlavesnicePlayer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer/PlayerInputControl" instance=ExtResource("20_6v7vb")]
+bus = &"Master"
+
+[node name="ConfirmPlayer" type="AudioStreamPlayer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer/PlayerInputControl"]
+stream = SubResource("AudioStreamRandomizer_tboge")
 
 [node name="ContinueControl" type="Button" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state", "deny_player")]
 layout_mode = 2
@@ -385,7 +417,10 @@ text = "Continue"
 script = ExtResource("17_fefts")
 dialogue_control = NodePath("../../DialogueControl2")
 player_state = NodePath("../../../../../../PlayerState")
-deny_player = NodePath("../../DialogueControl2/KlavesnicePlayer")
+deny_player = NodePath("DenyPlayer")
+
+[node name="DenyPlayer" type="AudioStreamPlayer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer/ContinueControl"]
+stream = SubResource("AudioStreamRandomizer_6oyfi")
 
 [node name="Walls" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00956154, 0, -27.7894)
@@ -641,7 +676,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mirror/MirrorInteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.845838, 0.39601, -0.28782)
-shape = SubResource("BoxShape3D_icqsc")
+shape = SubResource("BoxShape3D_qaf77")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
@@ -691,7 +726,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Door/DoorInteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32775, -0.243879, -0.0739155)
-shape = SubResource("BoxShape3D_ifdjf")
+shape = SubResource("BoxShape3D_eamdc")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
