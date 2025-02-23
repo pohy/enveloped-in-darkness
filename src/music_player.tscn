@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://rslk0l6wvf85"]
+
+[ext_resource type="AudioStream" uid="uid://dcaynal5o2426" path="res://audio/ambience_MASTER.ogg" id="1_c2q3j"]
+[ext_resource type="AudioStream" uid="uid://b3iy3taej00wf" path="res://audio/faze_0_MASTER.ogg" id="2_rq4dv"]
+[ext_resource type="AudioStream" uid="uid://b173ud0agirgn" path="res://audio/faze_1_MASTER.ogg" id="3_s5v8r"]
+[ext_resource type="AudioStream" uid="uid://bil42iawcscnf" path="res://audio/faze_2_MASTER.ogg" id="4_v54g7"]
+[ext_resource type="AudioStream" uid="uid://p8bgxawumg2p" path="res://audio/faze_final_MASTER.ogg" id="5_u8ec6"]
+[ext_resource type="AudioStream" uid="uid://cd2wu4bh46yjh" path="res://audio/zaverecna_kakofonie_MASTER.ogg" id="6_qfhfq"]
+[ext_resource type="Script" path="res://src/music_player.gd" id="7_2ipch"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_8f10j"]
+clip_count = 6
+clip_0/name = &"Ambience Master"
+clip_0/stream = ExtResource("1_c2q3j")
+clip_0/auto_advance = 0
+clip_1/name = &"Faze 0 Master"
+clip_1/stream = ExtResource("2_rq4dv")
+clip_1/auto_advance = 0
+clip_2/name = &"Faze 1 Master"
+clip_2/stream = ExtResource("3_s5v8r")
+clip_2/auto_advance = 0
+clip_3/name = &"Faze 2 Master"
+clip_3/stream = ExtResource("4_v54g7")
+clip_3/auto_advance = 0
+clip_4/name = &"Faze Final Master"
+clip_4/stream = ExtResource("5_u8ec6")
+clip_4/auto_advance = 0
+clip_5/name = &"Zaverecna Kakofonie Master"
+clip_5/stream = ExtResource("6_qfhfq")
+clip_5/auto_advance = 0
+_transitions = {
+Vector2i(-1, 1): {
+"fade_beats": 8,
+"fade_mode": 3,
+"from_time": 2,
+"to_time": 1
+}
+}
+
+[node name="MusicPlayer" type="AudioStreamPlayer"]
+stream = SubResource("AudioStreamInteractive_8f10j")
+autoplay = true
+bus = &"Music"
+script = ExtResource("7_2ipch")

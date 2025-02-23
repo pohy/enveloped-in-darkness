@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bi83mgkfn0nc"]
+[gd_scene load_steps=22 format=3 uid="uid://bi83mgkfn0nc"]
 
 [ext_resource type="Texture2D" uid="uid://cpxalq40ck8m5" path="res://floor_tex_test.png" id="1_2qp3j"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_dqswr"]
@@ -15,6 +15,7 @@
 [ext_resource type="Resource" uid="uid://duj1qsmd5j5fv" path="res://dialogues/opening_dialogue.tres" id="9_mauwx"]
 [ext_resource type="Script" path="res://addons/sync_shape_to_mesh.gd" id="9_x1uuf"]
 [ext_resource type="PackedScene" uid="uid://c404pghb6hiqq" path="res://src/wall.tscn" id="14_6omtp"]
+[ext_resource type="PackedScene" uid="uid://rslk0l6wvf85" path="res://src/music_player.tscn" id="16_sqcd1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bf7mk"]
 shading_mode = 0
@@ -24,7 +25,7 @@ uv1_scale = Vector3(25, 25, 25)
 [sub_resource type="BoxMesh" id="BoxMesh_43oc4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_w5sub"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_h3yno"]
 size = Vector3(1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vlv6h"]
@@ -139,7 +140,7 @@ script = ExtResource("9_juwqr")
 mesh = SubResource("BoxMesh_43oc4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactive" node_paths=PackedStringArray("mesh")]
-shape = SubResource("BoxShape3D_w5sub")
+shape = SubResource("BoxShape3D_h3yno")
 script = ExtResource("9_x1uuf")
 mesh = NodePath("../MeshInstance3D")
 
@@ -157,6 +158,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.37566, 0, 0.918152)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vqp6w")
+
+[node name="MusicPlayer" parent="." instance=ExtResource("16_sqcd1")]
 
 [connection signal="dialogue_advanced" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="TextureStateControl" method="advance" unbinds=2]
 [connection signal="last_dialogue_reached" from="GUI/MarginContainer/VBoxContainer/DialogueControl" to="PlayerState" method="set_state_interacting"]
