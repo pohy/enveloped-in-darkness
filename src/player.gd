@@ -128,9 +128,11 @@ func _update_prompt_position():
 func _update_hand():
 	match player_state.current_state:
 		PlayerState.States.INTERACTING:
+			hand.visible = true
+
 			if hand.current_state == Hand.States.GRAB:
 				return
-			hand.visible = true
+
 			hand.set_state(
 				(
 					Hand.States.IDLE
@@ -140,6 +142,7 @@ func _update_hand():
 			)
 		PlayerState.States.PLACING_PROMPT:
 			hand.visible = true
+
 			if hand.current_state == Hand.States.OPEN:
 				return
 			hand.set_state(Hand.States.GRAB)
