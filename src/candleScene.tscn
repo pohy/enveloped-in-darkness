@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://sgp8ikgoa73x"]
+
+[ext_resource type="PackedScene" uid="uid://c1l6pdjuudln3" path="res://assets/candlesmall.glb" id="1_jjhpt"]
+[ext_resource type="Script" path="res://src/fix_imported_model.gd" id="2_v5u4k"]
+
+[node name="candlesmall" instance=ExtResource("1_jjhpt")]
+script = ExtResource("2_v5u4k")
+
+[node name="candle" parent="." index="0"]
+transform = Transform3D(0.215737, 0, 0, 0, 0.284077, 0, 0, 0, 0.215737, 0.021925, 2.38419e-07, -0.0119777)
+script = ExtResource("2_v5u4k")
+
+[node name="Cylinder" parent="candle" index="0"]
+script = ExtResource("2_v5u4k")
+
+[node name="Cylinder_006" parent="candle" index="1"]
+script = ExtResource("2_v5u4k")
