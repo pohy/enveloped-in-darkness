@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2ke4u4gy0wlj"]
+
+[ext_resource type="PackedScene" uid="uid://0kq3np8gh0yp" path="res://assets/postel2.glb" id="1_hgeyt"]
+[ext_resource type="Script" path="res://src/fix_imported_model.gd" id="2_6tqqa"]
+
+[node name="postel2" instance=ExtResource("1_hgeyt")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 1, -3.32735, 9.53674e-07, -0.00736761)
+script = ExtResource("2_6tqqa")
+
+[node name="postel" parent="." index="0"]
+script = ExtResource("2_6tqqa")
+
+[node name="polstar" parent="postel" index="0"]
+script = ExtResource("2_6tqqa")
+
+[node name="Cube_007" parent="postel/polstar" index="0"]
+script = ExtResource("2_6tqqa")
+
+[node name="Cube_008" parent="postel/polstar/Cube_007" index="0"]
+script = ExtResource("2_6tqqa")
+
+[node name="Cube_009" parent="postel/polstar/Cube_007" index="1"]
+script = ExtResource("2_6tqqa")
+
+[node name="Cube_010" parent="postel/polstar/Cube_007" index="2"]
+script = ExtResource("2_6tqqa")
+
+[node name="Cube_011" parent="postel/polstar/Cube_007" index="3"]
+script = ExtResource("2_6tqqa")
