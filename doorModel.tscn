@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgvx13h67jpvp"]
+
+[ext_resource type="Script" path="res://src/fix_imported_model.gd" id="1_18kpb"]
+
+[node name="doortex"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00099349)
+script = ExtResource("1_18kpb")
+
+[node name="door" parent="." index="0"]
+transform = Transform3D(0.125326, 0, 0, 0, 2.68009, 0, 0, 0, 1.32782, -0.111361, 2.76924, -1.33999)
+script = ExtResource("1_18kpb")
+
+[node name="door2" parent="door" index="0"]
+script = ExtResource("1_18kpb")
+
+[node name="Cylinder_003" parent="door/door2" index="0"]
+script = ExtResource("1_18kpb")
+
+[node name="Cylinder_004" parent="door/door2" index="1"]
+script = ExtResource("1_18kpb")
+
+[node name="Cylinder_005" parent="door/door2" index="2"]
+script = ExtResource("1_18kpb")
+
+[node name="Sphere_001" parent="door/door2" index="3"]
+script = ExtResource("1_18kpb")
+
+[node name="Sphere_002" parent="door/door2" index="4"]
+script = ExtResource("1_18kpb")

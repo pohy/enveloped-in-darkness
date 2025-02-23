@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cyoad44lsfe5m"
+path.s3tc="res://.godot/imported/doortex_2993ee95e742957eb9c68f7f6225556f.jpg-cd628280ad62b096b1db08ae0b2faf5d.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "d3464d990cdb53ee70b708801a94bb6a"
+}
+
+[deps]
+
+source_file="res://assets/doortex_2993ee95e742957eb9c68f7f6225556f.jpg"
+dest_files=["res://.godot/imported/doortex_2993ee95e742957eb9c68f7f6225556f.jpg-cd628280ad62b096b1db08ae0b2faf5d.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

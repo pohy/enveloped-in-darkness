@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqtf7p7x7hh3j"]
+
+[ext_resource type="PackedScene" uid="uid://bw1660r5grpe1" path="res://assets/doortex.glb" id="1_ww0hw"]
+[ext_resource type="Script" path="res://src/fix_imported_model.gd" id="2_or55a"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ku3ny"]
+size = Vector3(0.228027, 5.43353, 2.66141)
+
+[node name="doortex" instance=ExtResource("1_ww0hw")]
+script = ExtResource("2_or55a")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.266357, 2.69717, -1.37383)
+shape = SubResource("BoxShape3D_ku3ny")
+
+[node name="door" parent="." index="1"]
+transform = Transform3D(0.125326, 0, 0, 0, 2.68009, 0, 0, 0, 1.32782, -0.138197, 2.68042, -1.37273)
+script = ExtResource("2_or55a")
+
+[node name="door2" parent="door" index="0"]
+script = ExtResource("2_or55a")
+
+[node name="Cylinder_003" parent="door/door2" index="0"]
+script = ExtResource("2_or55a")
+
+[node name="Cylinder_004" parent="door/door2" index="1"]
+script = ExtResource("2_or55a")
+
+[node name="Cylinder_005" parent="door/door2" index="2"]
+script = ExtResource("2_or55a")
+
+[node name="Sphere_001" parent="door/door2" index="3"]
+script = ExtResource("2_or55a")
+
+[node name="Sphere_002" parent="door/door2" index="4"]
+script = ExtResource("2_or55a")

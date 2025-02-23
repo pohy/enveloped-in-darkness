@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://di8q26qrtjxcl"]
+
+[ext_resource type="PackedScene" uid="uid://cp8bbl1yxrgne" path="res://assets/lamp.glb" id="1_lkojt"]
+[ext_resource type="Script" path="res://src/fix_imported_model.gd" id="2_54xos"]
+
+[node name="lamp2" instance=ExtResource("1_lkojt")]
+script = ExtResource("2_54xos")
+
+[node name="Cylinder_001" parent="." index="0"]
+script = ExtResource("2_54xos")
+
+[node name="Cylinder_002" parent="." index="1"]
+script = ExtResource("2_54xos")
+
+[node name="lamp" parent="Cylinder_002" index="0"]
+script = ExtResource("2_54xos")
+
+[node name="lampa" parent="Cylinder_002" index="1"]
+script = ExtResource("2_54xos")
