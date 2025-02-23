@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bskqqeblxxkt0"]
+[gd_scene load_steps=38 format=3 uid="uid://bskqqeblxxkt0"]
 
 [ext_resource type="PackedScene" uid="uid://cxbjtkqt0ufvj" path="res://src/player.tscn" id="1_naty0"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_oek4m"]
@@ -46,17 +46,19 @@ size = Vector3(4.87742, 1.41113, 6.27736)
 [sub_resource type="BoxMesh" id="BoxMesh_d3lyc"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_dq47y"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_5n80n"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5551n"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_d0ld4"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_f4wna"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_icqsc"]
 size = Vector3(1, 1, 0.2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ih33r"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ifdjf"]
 size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rvn6b"]
 
 [node name="Room_blocks" type="Node3D"]
 
@@ -139,7 +141,7 @@ script = ExtResource("5_ggdq6")
 transform = Transform3D(1, -4.65661e-09, 1.39698e-09, 4.19095e-09, 1, 0, 2.91038e-09, -1.49012e-08, 1, 37.036, -6.06526, -9.41662)
 
 [node name="Photography" type="Node3D" parent="."]
-transform = Transform3D(-0.0465265, -0.0931548, -0.994564, 0.0255017, 0.995207, -0.094408, 0.998591, -0.0297555, -0.043928, 8.50261, 0.665328, -0.834952)
+transform = Transform3D(-0.0465265, -0.0931548, -0.994564, 0.0255017, 0.995207, -0.094408, 0.998591, -0.0297555, -0.043928, 9.14408, 0.225338, -0.793828)
 
 [node name="Bookshelf" type="CSGBox3D" parent="Photography"]
 transform = Transform3D(-0.0465266, 0.0255017, 0.998592, -0.0931548, 0.995207, -0.0297556, -0.994564, -0.094408, -0.0439279, -3.27767, 2.80278, 3.43511)
@@ -187,7 +189,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Photography/PhotoInteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07114, 0.484114, -0.659879)
-shape = SubResource("BoxShape3D_dq47y")
+shape = SubResource("BoxShape3D_5n80n")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
@@ -259,7 +261,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Candle/Candlenteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1085, 3.43738, -0.415397)
-shape = SubResource("BoxShape3D_5551n")
+shape = SubResource("BoxShape3D_d0ld4")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
@@ -633,7 +635,7 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mirror/MirrorInteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.845838, 0.39601, -0.28782)
-shape = SubResource("BoxShape3D_f4wna")
+shape = SubResource("BoxShape3D_icqsc")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
 
@@ -683,9 +685,15 @@ mesh = SubResource("BoxMesh_d3lyc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Door/DoorInteractive" node_paths=PackedStringArray("mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32775, -0.243879, -0.0739155)
-shape = SubResource("BoxShape3D_ih33r")
+shape = SubResource("BoxShape3D_ifdjf")
 script = ExtResource("17_aufe8")
 mesh = NodePath("../MeshInstance3D")
+
+[node name="Area3D" type="Area3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1034, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door/Area3D"]
+shape = SubResource("BoxShape3D_rvn6b")
 
 [node name="DoorInCorridor" parent="." instance=ExtResource("12_0n3nb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.52066, 0, -41.0219)
@@ -713,6 +721,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.09855, -0.768332, 0.789418
 [connection signal="last_line_reached" from="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" to="PlayerState" method="set_state_interacting"]
 [connection signal="interacted" from="Mirror/MirrorInteractive" to="PlayerState" method="set_state_in_dialogue" unbinds=1]
 [connection signal="interacted" from="Mirror/MirrorInteractive" to="Mirror/MirrorInteractive" method="disable" unbinds=1]
+[connection signal="interacted" from="Mirror/MirrorInteractive" to="Door" method="queue_free" unbinds=1]
 [connection signal="interacted" from="Mirror/MirrorInteractive" to="Door/DoorInteractive" method="enable" unbinds=1]
 [connection signal="body_entered" from="Mirror/MirrorArea3D" to="Mirror/Mirror LabelGroup/MirrorLabel/Mirror1LabelToggleVisibility" method="make_visible" unbinds=1]
 [connection signal="body_entered" from="Mirror/MirrorArea3D" to="Mirror/Mirror LabelGroup/MirrorLabel2/Mirror2LabelToggleVisibility" method="make_visible" unbinds=1]
