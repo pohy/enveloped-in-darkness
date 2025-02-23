@@ -4,4 +4,4 @@
 
 [resource]
 script = ExtResource("1_wejnb")
-file_path = ""
+file_path = "res://dialogues/final_dialogue.txt"

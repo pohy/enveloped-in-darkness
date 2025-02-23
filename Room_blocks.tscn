@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bskqqeblxxkt0"]
+[gd_scene load_steps=39 format=3 uid="uid://bskqqeblxxkt0"]
 
 [ext_resource type="PackedScene" uid="uid://cxbjtkqt0ufvj" path="res://src/player.tscn" id="1_naty0"]
 [ext_resource type="Script" path="res://src/player_state.gd" id="1_oek4m"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://src/continue_control.gd" id="17_fefts"]
 [ext_resource type="Resource" uid="uid://6o4yac57u7n8" path="res://dialogues/mirror_dialogues.tres" id="17_l3xfe"]
 [ext_resource type="PackedScene" path="res://src/klavesnice_player.tscn" id="20_6v7vb"]
+[ext_resource type="Resource" uid="uid://ckn1q0ekwt8c4" path="res://dialogues/final_dialogue.tres" id="21_n0u5k"]
 [ext_resource type="PackedScene" uid="uid://sgp8ikgoa73x" path="res://src/candleScene.tscn" id="24_8884f"]
 [ext_resource type="PackedScene" uid="uid://b2ke4u4gy0wlj" path="res://src/BedScene.tscn" id="25_yb5cy"]
 
@@ -345,12 +346,12 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="DialogueControl2" type="Node" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state", "klavesnice_player")]
+[node name="DialogueControl2" type="Node" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("dialogue_label", "player_state", "odhalovani_player")]
 script = ExtResource("4_5yknr")
-dialouges = Array[ExtResource("11_e4u52")]([ExtResource("12_mnxj5"), ExtResource("14_uokft"), ExtResource("16_nr50m"), ExtResource("17_l3xfe")])
+dialouges = Array[ExtResource("11_e4u52")]([ExtResource("12_mnxj5"), ExtResource("14_uokft"), ExtResource("16_nr50m"), ExtResource("17_l3xfe"), ExtResource("21_n0u5k")])
 dialogue_label = NodePath("../DialogueLabel")
 player_state = NodePath("../../../../../PlayerState")
-klavesnice_player = NodePath("KlavesnicePlayer")
+odhalovani_player = NodePath("KlavesnicePlayer")
 
 [node name="KlavesnicePlayer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/DialogueControl2" instance=ExtResource("20_6v7vb")]
 bus = &"Master"
@@ -364,7 +365,7 @@ fit_content = true
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PlayerInputControl" type="TextEdit" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state")]
+[node name="PlayerInputControl" type="TextEdit" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state", "klavesnice_player", "confirm_player")]
 layout_mode = 2
 size_flags_horizontal = 3
 context_menu_enabled = false
@@ -374,14 +375,17 @@ caret_multiple = false
 script = ExtResource("16_t68pk")
 dialogue_control = NodePath("../../DialogueControl2")
 player_state = NodePath("../../../../../../PlayerState")
+klavesnice_player = NodePath("../../DialogueControl2/KlavesnicePlayer")
+confirm_player = NodePath("../../../../../../MusicPlayer")
 
-[node name="ContinueControl" type="Button" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state")]
+[node name="ContinueControl" type="Button" parent="CanvasLayer/GUI/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("dialogue_control", "player_state", "deny_player")]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Continue"
 script = ExtResource("17_fefts")
 dialogue_control = NodePath("../../DialogueControl2")
 player_state = NodePath("../../../../../../PlayerState")
+deny_player = NodePath("../../DialogueControl2/KlavesnicePlayer")
 
 [node name="Walls" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00956154, 0, -27.7894)
