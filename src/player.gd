@@ -150,7 +150,13 @@ func _update_hand():
 			if hand.current_state == Hand.States.GRAB:
 				return
 			hand.visible = true
-			hand.set_state(Hand.States.IDLE if _current_interactive == null else Hand.States.OPEN)
+			hand.set_state(
+				(
+					Hand.States.IDLE
+					if _current_interactive == null or not _current_interactive.is_enabled
+					else Hand.States.OPEN
+				)
+			)
 		PlayerState.States.PLACING_PROMPT:
 			hand.visible = true
 			if hand.current_state == Hand.States.OPEN:
